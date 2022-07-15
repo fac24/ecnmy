@@ -4,7 +4,8 @@
 set -e
 
 # import .env so we can access DB URL
-. "./.env.local"
+. "./.env.development.local"
 
 psql $DATABASE_URL -q -f "./database/init.sql"
+psql $DATABASE_URL -q -f "./database/locations.sql"
 echo "Populated database tables"

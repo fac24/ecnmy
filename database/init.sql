@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP TABLE IF EXISTS locations CASCADE;
+DROP TABLE IF EXISTS locations, datasets, topics, datasets_topics CASCADE;
 
 CREATE TABLE locations (
     code TEXT NOT NULL, 
@@ -19,8 +19,8 @@ CREATE TABLE topics (
 );
 
 CREATE TABLE datasets_topics (
-    dataset_id INTEGER REFERENCES datasets.id,
-    topic_id INTEGER REFERENCES topics.id
+    dataset_id INTEGER REFERENCES datasets(id),
+    topic_id INTEGER REFERENCES topics(id)
 );
 
 COMMIT;
