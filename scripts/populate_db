@@ -8,4 +8,5 @@ set -e
 
 psql $DATABASE_URL -q -f "./database/init.sql"
 psql $DATABASE_URL -q -f "./database/locations.sql"
+psql $DATABASE_URL -q -f "./database/datasets.sql"
 echo "Populated database tables"
