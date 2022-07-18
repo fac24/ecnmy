@@ -15,10 +15,7 @@ export default function Layout({ children }) {
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
             </Head>
-            <header>
-                <NavBar />
-                <h1>London Cost of Living Data Dashboard</h1>
-            </header>
+            <NavBar />
             <main>{children}</main>
         </>
     );

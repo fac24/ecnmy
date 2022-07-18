@@ -1,12 +1,12 @@
 import { data } from "autoprefixer";
 
-export async function getServerSideProps(context) {
-    const query = context.query;
+export async function getServerSideProps(params) {
+    const query = params.query;
 
     return {
         props: {
             query
-        }, // will be passed to the page component as props
+        },
     }
 }
 
