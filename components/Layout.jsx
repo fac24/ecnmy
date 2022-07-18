@@ -1,4 +1,5 @@
 import Head from "next/head";
+import NavBar from "./NavBar";
 
 export default function Layout({ children }) {
     return (
@@ -15,6 +16,7 @@ export default function Layout({ children }) {
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
             </Head>
             <header>
+                <NavBar />
                 <h1>London Cost of Living Data Dashboard</h1>
             </header>
             <main>{children}</main>
