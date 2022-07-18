@@ -1,0 +1,27 @@
+BEGIN;
+INSERT INTO topics (name) VALUES
+('Business'),
+('Consumption'),
+('Crime'),
+('Economy'),
+('Education'),
+('Emergency Services'),
+('Energy'),
+('Environment'),
+('Food'),
+('Government'),
+('Health'),
+('Housing'),
+('Immigration'),
+('Inequality'),
+('Jobs'),
+('Money'),
+('Poverty'),
+('Public Services'),
+('Society'),
+('Tax'),
+('Technology'),
+('Transport'),
+('Welfare'),
+('Wellbeing');
+COMMIT;
