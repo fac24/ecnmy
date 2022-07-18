@@ -17,7 +17,27 @@ const jsonConverter = async () => {
   const happiness = await jsonParser("./datasets/happiness.json");
   const totalClaim = await jsonParser("./datasets/totalClaim.json");
 
+  happiness.data.forEach(item => {
+    delete Object.assign(item, { ["Value"]: item["V4_3"] })["V4_3"];
+    delete item['Data Marking'];
+    delete item['yyyy-yy'];
+  })
+
   const totalClaimData = totalClaim.data;
+
+  const tidyClaimData = totalClaimData.flatMap(item => {
+    const Geography = item.Area;
+    const [_, ...entries] = Object.entries(item);
+    return entries.map((entry) => {
+      return {
+        Geography: Geography,
+        Time: entry[0].substring(4),
+        Value: entry[1]
+      }
+    })
+  })
+
+  totalClaim.data = tidyClaimData;
 
   let sqlOutput = /*SQL*/ `BEGIN;\n\nINSERT INTO datasets (indicator, data) VALUES\n`;
 
