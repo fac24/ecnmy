@@ -2,10 +2,8 @@ import Link from "next/link";
 
 export default function NavBar() {
   return (
-    <nav className="flex justify-between max-w-4xl m-auto px-4 text-2xl ">
-      <div>
-        <img src="" alt="" />
-      </div>
+    <nav className="flex text-ecnmy-breeze justify-between max-w-4xl m-auto px-4 text-2xl bg-ecnmy-charcall rounded-lg">
+      <div>Data</div>
       <section className="flex space-x-6">
         <div className="flex items-center">
           <img
