@@ -15,12 +15,18 @@ async function jsonParser(file) {
 
 const jsonConverter = async () => {
   const happiness = await jsonParser("./datasets/happiness.json");
+  const totalClaim = await jsonParser("./datasets/totalClaim.json");
 
-  let happinessArray = [];
+  const totalClaimData = totalClaim.data;
 
-  let sqlOutput = /*SQL*/ `BEGIN;\n\nINSERT INTO datasets (indicator, data) VALUES\n('happiness', '${JSON.stringify(
-    happiness
-  )}');\n\nCOMMIT;`;
+  let sqlOutput = /*SQL*/ `BEGIN;\n\nINSERT INTO datasets (indicator, data) VALUES\n`;
+
+  sqlOutput += `
+    ('happiness', '${JSON.stringify(happiness)}'),\n`;
+  sqlOutput += `('totalClaim', '${JSON.stringify(totalClaim)}'),\n`;
+  sqlOutput = sqlOutput.substring(0, sqlOutput.length - 2) + ";";
+  sqlOutput += "\n\nCOMMIT;";
+
   fs.writeFile("./database/datasets.sql", sqlOutput, (err) => {
     if (err) {
       console.error(err);
@@ -30,3 +36,14 @@ const jsonConverter = async () => {
 };
 
 jsonConverter();
+
+// let sqlOutput =
+// "BEGIN;\n\nINSERT INTO locations (code, name) VALUES\n";
+
+// locationData.forEach((location) => {
+// sqlOutput += `('${location.id}', '${location.name}'), \n`;
+// })
+
+// sqlOutput = sqlOutput.substring(0, sqlOutput.length - 3) + ";";
+
+// sqlOutput += "\n\nCOMMIT;";
