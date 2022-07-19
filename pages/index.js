@@ -18,7 +18,7 @@ export async function getServerSideProps() {
 
   // Turn these locations and topics into options for react-select
   const locationOptions = selectOptions(locations);
-  const topicOptions = selectOptions(topics);
+  const topicOptions = [{ value: 'All', label: 'All' }, ...selectOptions(topics)];
   return { props: { topicOptions, locationOptions } };
 }
 
@@ -26,7 +26,7 @@ export default function Home({ topicOptions, locationOptions }) {
   return (
     <main>
       <h1 className="blue">ECNMY DASHBOARD</h1>
-      <form action="/cards">
+      <form action="/api/location-topic-form" method="POST">
         <label htmlFor="select-location">Select Location</label>
         <Select
           id="select-location"
