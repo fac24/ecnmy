@@ -26,7 +26,7 @@ export default function Home({ topicOptions, locationOptions }) {
   return (
     <main>
       <h1 className="blue">ECNMY DASHBOARD</h1>
-      <form action="/cards">
+      <form action="/api/location-topic-form" method="POST">
         <label htmlFor="select-location">Select Location</label>
         <Select
           id="select-location"
