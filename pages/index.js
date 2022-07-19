@@ -18,7 +18,7 @@ export async function getServerSideProps() {
 
   // Turn these locations and topics into options for react-select
   const locationOptions = selectOptions(locations);
-  const topicOptions = selectOptions(topics);
+  const topicOptions = [{ value: 'All', label: 'All' }, ...selectOptions(topics)];
   return { props: { topicOptions, locationOptions } };
 }
 

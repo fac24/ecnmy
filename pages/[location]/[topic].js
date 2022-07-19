@@ -1,4 +1,4 @@
-import { selectDataByTopicName } from "../../database/model";
+import { selectAllByServerSideParam, selectDataByTopicName } from "../../database/model";
 import Card from "../../components/Card";
 import cardDataArranger from "../../utils/cardDataArranger";
 
@@ -10,7 +10,7 @@ export async function getServerSideProps({ params }) {
   if (params.location !== "favicon.ico") {
     // 1. Query database for datasets with respective topics params.topic
     const location = params.location;
-    const datasets = await selectDataByTopicName(params.topic);
+    const datasets = params.topic === 'All' ? await selectAllByServerSideParam("datasets") : await selectDataByTopicName(params.topic);
 
     // Map the datasets given back to something that we can form into cards
     const locationDatasets = cardDataArranger(datasets, location);
