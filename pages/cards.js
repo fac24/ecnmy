@@ -1,5 +1,3 @@
-import { data } from "autoprefixer";
-
 export async function getServerSideProps(params) {
     const query = params.query;
 
@@ -33,9 +31,9 @@ export default function Cards({ query }) {
   //1. see what user has entered on landing page
   //2. present dropdown menus appropriate to those (i.e. first shows borough; second topic)
   //3. send db request to datasets table,
-  //bringing up info from those JSON objects that match the chose topic
+  //bringing up info from those JSON objects that match the chosen topic
   //i.e. for each entry in datasets table, give name of indicator
   //then go to the JSON for that entry, find the borough that the user has searched
   //and present the most recent value for that indicator
-  //(further: present that indicator as a percentage of London, UK)
+  //(further: present that indicator as a percentage of London, UK, ranking)
   //4. present data from those topics, with a card per indicator
