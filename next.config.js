@@ -4,4 +4,14 @@ const nextConfig = {
   swcMinify: true,
 }
 
-module.exports = nextConfig
+module.exports = {
+  nextConfig,
+  async rewrites() {
+    return [
+      {
+        source: "/:location",
+        destination: "/:location/All",
+      },
+    ];
+  },
+};
