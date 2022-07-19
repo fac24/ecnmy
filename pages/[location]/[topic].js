@@ -1,28 +1,6 @@
 import { selectDataByTopicName } from "../../database/model";
-
-// Sorts an array by Time (In our case year, but the first four characters is the year)
-// Then slices giving values back based on what a user wants (in our case splits of 35 as that is the number of data points we have)
-const sortByYearReturningOneYear = (arr, slice) => {
-  return arr
-    .sort((a, b) => {
-      return (
-        parseInt(b.Time.substring(0, 4)) - parseInt(a.Time.substring(0, 4))
-      );
-    })
-    .slice(slice[0], slice[1]);
-};
-
-// Gets all the data by the object property Geography
-const getDataByGeography = (arr, Geography) => {
-  return arr[arr.findIndex((item) => item.Geography === Geography)];
-};
-
-// Find the percentage change based on a previous years values
-const findChange = (current, previous, Geography) => {
-  const currentValue = getDataByGeography(current, Geography).Value;
-  const previousValue = getDataByGeography(previous, Geography).Value;
-  return ((currentValue - previousValue) / previousValue) * 100;
-};
+import Card from "../../components/Card";
+import cardDataArranger from "../../utils/cardDataArranger";
 
 export async function getServerSideProps({ params }) {
   //params.location gives the location part of URL
@@ -35,46 +13,14 @@ export async function getServerSideProps({ params }) {
     const datasets = await selectDataByTopicName(params.topic);
 
     // Map the datasets given back to something that we can form into cards
-    const locationDatasets = datasets.map((dataset) => {
-      //Gives us the array of data in the dataset
-      const dataArray = dataset.data.data;
-
-      // Inits variables for the card object we're building
-      const allCurrentYearData = sortByYearReturningOneYear(dataArray, [0, 35]);
-      const lastYearsData = sortByYearReturningOneYear(dataArray, [35, 70]);
-      const boroughCurrentYearData = allCurrentYearData
-        .filter((data) => {
-          return data.Geography === "United Kingdom" ||
-            data.Geography === "London"
-            ? false
-            : true;
-        })
-        .sort((a, b) => b.Value - a.Value);
-
-      const locationData = getDataByGeography(allCurrentYearData, location);
-      const ukData = getDataByGeography(
-        allCurrentYearData,
-        "United Kingdom"
-      ).Value;
-      const londonData = getDataByGeography(allCurrentYearData, "London").Value;
-      const ranking =
-        boroughCurrentYearData.findIndex(
-          (item) => item.Geography === location
-        ) + 1; // +1 as 0 indexed
-      const change = findChange(allCurrentYearData, lastYearsData, location);
-
-      return {
-        cardData: { locationData, ukData, londonData, ranking, change },
-        indicator: dataset.indicator,
-      };
-    });
-    // CardData includes
+    const locationDatasets = cardDataArranger(datasets, location);
+    // locationDatasets includes
     // locationData: this will be the value for that location and indicator
     // ukData: this will be the uks value
     // londonData: this will be londons value
     // ranking: this will be it's ranking of the most recent year compared to other london boroughs
     // change: this will be the percentage change based on the relevant borough last year
-    // 2. With datasets, do some working out for the location, and extra bits like ranking etc.
+    // indicator: the name of the dataset indicator
     return {
       props: {
         locationDatasets,
@@ -85,38 +31,13 @@ export async function getServerSideProps({ params }) {
 
 export default function Cards({ locationDatasets }) {
   const cards = locationDatasets.map((dataset, index) => {
-    const cardData = dataset.cardData;
-    return (
-      <div key={index} className="border-2">
-        <h2 className="capitalize">{dataset.indicator}</h2>
-        <h3>{dataset.cardData.locationData.Value}</h3>
-        <ul>
-          <li>This ranks {cardData.ranking}/33 of the London Boroughs</li>
-          <li>The London value is {cardData.londonData}</li>
-          <li>The Uk value is {cardData.ukData}</li>
-          {cardData.change > 0 ? (
-            <li>This has increased by {cardData.change.toPrecision(3)}%</li>
-          ) : (
-            <li>This has decreased by {-cardData.change.toPrecision(3)}%</li>
-          )}
-        </ul>
-      </div>
-    );
+    return <Card dataset={dataset} key={index} />;
   });
   return (
     <>
       <h1>Card Page</h1>
+      {/*Present dropdown menus appropriate to those (i.e. first shows borough; second topic)*/}
       {cards}
     </>
   );
 }
-
-//1. see what user has entered on landing page
-//2. present dropdown menus appropriate to those (i.e. first shows borough; second topic)
-//3. send db request to datasets table,
-//bringing up info from those JSON objects that match the chosen topic
-//i.e. for each entry in datasets table, give name of indicator
-//then go to the JSON for that entry, find the borough that the user has searched
-//and present the most recent value for that indicator
-//(further: present that indicator as a percentage of London, UK, ranking)
-//4. present data from those topics, with a card per indicator
