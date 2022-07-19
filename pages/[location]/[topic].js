@@ -1,5 +1,7 @@
 import { selectDataByTopicName } from "../../database/model";
 
+// Sorts an array by Time (In our case year, but the first four characters is the year)
+// Then slices giving values back based on what a user wants (in our case splits of 35 as that is the number of data points we have)
 const sortByYearReturningOneYear = (arr, slice) => {
   return arr
     .sort((a, b) => {
@@ -10,10 +12,12 @@ const sortByYearReturningOneYear = (arr, slice) => {
     .slice(slice[0], slice[1]);
 };
 
+// Gets all the data by the object property Geography
 const getDataByGeography = (arr, Geography) => {
   return arr[arr.findIndex((item) => item.Geography === Geography)];
 };
 
+// Find the percentage change based on a previous years values
 const findChange = (current, previous, Geography) => {
   const currentValue = getDataByGeography(current, Geography).Value;
   const previousValue = getDataByGeography(previous, Geography).Value;
@@ -23,14 +27,19 @@ const findChange = (current, previous, Geography) => {
 export async function getServerSideProps({ params }) {
   //params.location gives the location part of URL
   //params.topic gives the topic part of the URL
+
+  /*Not sure why we need this if statement, is very annoying.*/
   if (params.location !== "favicon.ico") {
     // 1. Query database for datasets with respective topics params.topic
     const location = params.location;
-
     const datasets = await selectDataByTopicName(params.topic);
+
+    // Map the datasets given back to something that we can form into cards
     const locationDatasets = datasets.map((dataset) => {
+      //Gives us the array of data in the dataset
       const dataArray = dataset.data.data;
 
+      // Inits variables for the card object we're building
       const allCurrentYearData = sortByYearReturningOneYear(dataArray, [0, 35]);
       const lastYearsData = sortByYearReturningOneYear(dataArray, [35, 70]);
       const boroughCurrentYearData = allCurrentYearData
@@ -66,15 +75,10 @@ export async function getServerSideProps({ params }) {
     // ranking: this will be it's ranking of the most recent year compared to other london boroughs
     // change: this will be the percentage change based on the relevant borough last year
     // 2. With datasets, do some working out for the location, and extra bits like ranking etc.
-    console.log(locationDatasets);
     return {
       props: {
         locationDatasets,
       },
-    };
-  } else {
-    return {
-      props: {},
     };
   }
 }
@@ -91,9 +95,9 @@ export default function Cards({ locationDatasets }) {
           <li>The London value is {cardData.londonData}</li>
           <li>The Uk value is {cardData.ukData}</li>
           {cardData.change > 0 ? (
-            <li>This has increased by {cardData.change.toFixed(2)}</li>
+            <li>This has increased by {cardData.change.toPrecision(3)}%</li>
           ) : (
-            <li>This has decreased by {-cardData.change.toFixed(2)}</li>
+            <li>This has decreased by {-cardData.change.toPrecision(3)}%</li>
           )}
         </ul>
       </div>
