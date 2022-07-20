@@ -11,7 +11,7 @@ const sortByYearReturningOneYear = (arr, slice) => {
 };
 
 // Gets all the data by the object property Geography
-const getDataByGeography = (arr, Geography) => {
+export const getDataByGeography = (arr, Geography) => {
   return arr[arr.findIndex((item) => item.Geography === Geography)];
 };
 
