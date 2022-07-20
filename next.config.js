@@ -10,7 +10,7 @@ module.exports = {
     return [
       {
         source: "/:location",
-        destination: "/:location/All",
+        destination: "/:location/topic/All",
       },
     ];
   },

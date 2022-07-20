@@ -19,4 +19,19 @@ const selectDataByTopicName = async (topic) => {
   return await db.query(SELECT_DATA, [topic]).then((resolve) => resolve.rows);
 };
 
-module.exports = { selectAllByServerSideParam, selectDataByTopicName };
+const selectDatasetByIndicator = async (indicator) => {
+  const SELECT_DATASET = /*SQL*/ `
+    SELECT *
+    FROM datasets
+    WHERE indicator = $1
+  `;
+  return await db
+    .query(SELECT_DATASET, [indicator])
+    .then((resolve) => resolve.rows[0]);
+};
+
+module.exports = {
+  selectAllByServerSideParam,
+  selectDataByTopicName,
+  selectDatasetByIndicator,
+};

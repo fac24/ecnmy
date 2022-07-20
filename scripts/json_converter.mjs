@@ -17,33 +17,40 @@ const jsonConverter = async () => {
   const happiness = await jsonParser("./datasets/happiness.json");
   const totalClaim = await jsonParser("./datasets/totalClaim.json");
 
-  happiness.data.forEach(item => {
+  happiness.data.forEach((item) => {
     delete Object.assign(item, { ["Value"]: item["V4_3"] })["V4_3"];
-    delete item['Data Marking'];
-    delete item['yyyy-yy'];
-  })
+    delete item["Data Marking"];
+    delete item["yyyy-yy"];
+  });
+  const happinessMetadata = {
+    api: "https://api.beta.ons.gov.uk/v1/datasets/wellbeing-quarterly/editions/time-series/versions/4/metadata",
+  };
 
   const totalClaimData = totalClaim.data;
 
-  const tidyClaimData = totalClaimData.flatMap(item => {
+  const tidyClaimData = totalClaimData.flatMap((item) => {
     const Geography = item.Area;
     const [_, ...entries] = Object.entries(item);
     return entries.map((entry) => {
       return {
         Geography: Geography,
         Time: entry[0].substring(4),
-        Value: entry[1]
-      }
-    })
-  })
+        Value: entry[1],
+      };
+    });
+  });
 
   totalClaim.data = tidyClaimData;
 
-  let sqlOutput = /*SQL*/ `BEGIN;\n\nINSERT INTO datasets (indicator, data) VALUES\n`;
+  let sqlOutput = /*SQL*/ `BEGIN;\n\nINSERT INTO datasets (indicator, data, metadata) VALUES\n`;
 
   sqlOutput += `
-    ('happiness', '${JSON.stringify(happiness)}'),\n`;
-  sqlOutput += `('totalClaim', '${JSON.stringify(totalClaim)}'),\n`;
+    ('happiness', '${JSON.stringify(happiness)}', '${JSON.stringify(
+    happinessMetadata
+  )}'),\n`;
+  sqlOutput += `('totalClaim', '${JSON.stringify(
+    totalClaim
+  )}', '{"metadata": null}'),\n`; // NEED TO REPLACE THIS WITH ACTUAL METADATA
   sqlOutput = sqlOutput.substring(0, sqlOutput.length - 2) + ";";
   sqlOutput += "\n\nCOMMIT;";
 
