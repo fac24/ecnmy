@@ -18,10 +18,10 @@ export async function getServerSideProps({ params }) {
     (object) => object.Geography === location
   );
 
-  const locationDataset = cardDataArranger([dataset], location);
+  const [locationDataset] = cardDataArranger([dataset], location);
 
   return {
-    props: { indicator, location, boroughData, metadata, locationDataset },
+    props: { location, boroughData, metadata, locationDataset },
   };
 }
 
@@ -36,7 +36,7 @@ export default function Indicator({
     <main>
       <h1 className="blue">Indicator Page</h1>
       <h2>
-        {metadata.title}: {indicator}
+        {metadata.title}: {locationDataset.indicator}
       </h2>
       <p>{metadata.description}</p>
     </main>

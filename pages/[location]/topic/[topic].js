@@ -1,4 +1,7 @@
-import { selectAllByServerSideParam, selectDataByTopicName } from "../../../database/model";
+import {
+  selectAllByServerSideParam,
+  selectDataByTopicName,
+} from "../../../database/model";
 import Card from "../../../components/Card";
 import cardDataArranger from "../../../utils/cardDataArranger";
 
@@ -6,32 +9,28 @@ export async function getServerSideProps({ params }) {
   //params.location gives the location part of URL
   //params.topic gives the topic part of the URL
 
-  /*Not sure why we need this if statement, is very annoying.*/
-  if (params.location !== "favicon.ico") {
-    // 1. Query database for datasets with respective topics params.topic
-    const location = params.location;
-    const datasets = params.topic === 'All' ? await selectAllByServerSideParam("datasets") : await selectDataByTopicName(params.topic);
+  // 1. Query database for datasets with respective topics params.topic
+  const location = params.location;
+  const datasets =
+    params.topic === "All"
+      ? await selectAllByServerSideParam("datasets")
+      : await selectDataByTopicName(params.topic);
 
-    // Map the datasets given back to something that we can form into cards
-    const locationDatasets = cardDataArranger(datasets, location);
-    // locationDatasets includes
-    // locationData: this will be the value for that location and indicator
-    // ukData: this will be the uks value
-    // londonData: this will be londons value
-    // ranking: this will be it's ranking of the most recent year compared to other london boroughs
-    // change: this will be the percentage change based on the relevant borough last year
-    // indicator: the name of the dataset indicator
-    return {
-      props: {
-        locationDatasets,
-        location
-      },
-    };
-  } else {
-    return {
-      props: {}
-    }
-  }
+  // Map the datasets given back to something that we can form into cards
+  const locationDatasets = cardDataArranger(datasets, location);
+  // locationDatasets includes
+  // locationData: this will be the value for that location and indicator
+  // ukData: this will be the uks value
+  // londonData: this will be londons value
+  // ranking: this will be it's ranking of the most recent year compared to other london boroughs
+  // change: this will be the percentage change based on the relevant borough last year
+  // indicator: the name of the dataset indicator
+  return {
+    props: {
+      locationDatasets,
+      location,
+    },
+  };
 }
 
 export default function Cards({ locationDatasets, location }) {
