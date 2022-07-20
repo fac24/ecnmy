@@ -1,6 +1,6 @@
-import { selectAllByServerSideParam, selectDataByTopicName } from "../../database/model";
-import Card from "../../components/Card";
-import cardDataArranger from "../../utils/cardDataArranger";
+import { selectAllByServerSideParam, selectDataByTopicName } from "../../../database/model";
+import Card from "../../../components/Card";
+import cardDataArranger from "../../../utils/cardDataArranger";
 
 export async function getServerSideProps({ params }) {
   //params.location gives the location part of URL
@@ -24,14 +24,19 @@ export async function getServerSideProps({ params }) {
     return {
       props: {
         locationDatasets,
+        location
       },
     };
+  } else {
+    return {
+      props: {}
+    }
   }
 }
 
-export default function Cards({ locationDatasets }) {
+export default function Cards({ locationDatasets, location }) {
   const cards = locationDatasets.map((dataset, index) => {
-    return <Card dataset={dataset} key={index} />;
+    return <Card dataset={dataset} key={index} location={location} />;
   });
   return (
     <>
