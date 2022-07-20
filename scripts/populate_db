@@ -3,12 +3,36 @@
 # stop script when an error occurs
 set -e
 
-# import .env so we can access DB URL
+# Import .env file so we have the DATABASE_NAME variable
+#
+
+# set -d flag for deployment command: ./scripts/populate_db -d
+while getopts ":d" o; do 
+  case "${o}" in 
+    d)
+      deploy=true
+      ;;
+  esac
+done
+
 . "./.env.development.local"
 
-psql $DATABASE_URL -q -f "./database/init.sql"
-psql $DATABASE_URL -q -f "./database/locations.sql"
-psql $DATABASE_URL -q -f "./database/datasets.sql"
-psql $DATABASE_URL -q -f "./database/topics.sql"
-psql $DATABASE_URL -q -f "./database/datasets_topics.sql"
-echo "Populated database tables"
+if [ "$deploy" = true ] 
+then 
+  echo 'time to deployment'
+  DATABASE_URL=$DEPLOY_DB_URL
+fi
+
+if [ -z "$DATABASE_URL" ]
+then
+  echo "\$DATABASE_URL is empty!"
+else
+  echo "Found \$DATABASE_URL in .env.development.local"
+  echo "Now executing database init file in psql..."
+  psql $DATABASE_URL -q -f "./database/init.sql"
+  psql $DATABASE_URL -q -f "./database/locations.sql"
+  psql $DATABASE_URL -q -f "./database/datasets.sql"
+  psql $DATABASE_URL -q -f "./database/topics.sql"
+  psql $DATABASE_URL -q -f "./database/datasets_topics.sql"
+  echo "Populated database tables"
+fi
