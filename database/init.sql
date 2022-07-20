@@ -10,8 +10,21 @@ CREATE TABLE locations (
 CREATE TABLE datasets (
     id SERIAL PRIMARY KEY, 
     indicator TEXT NOT NULL,
-    data JSON  
+    data JSON,
+    metadata JSON 
 );
+/* 
+metadata format = 
+    {
+        description: text,
+	    downloads: {csv, csvw, xls} (could include in page),
+	    keywords: array [string],
+	    methodologies: {href:, title:},
+	    related_datasets: array [{href:, title:}],
+	    title: string
+	    release_date: time-date-format
+    }
+*/
 
 CREATE TABLE topics (
     id SERIAL PRIMARY KEY,
