@@ -5,7 +5,6 @@ import cardDataArranger from "../../../utils/cardDataArranger";
 export async function getServerSideProps({ params }) {
   //params.location gives the location part of URL
   //params.topic gives the topic part of the URL
-
   /*Not sure why we need this if statement, is very annoying.*/
   if (params.location !== "favicon.ico") {
     // 1. Query database for datasets with respective topics params.topic
