@@ -11,7 +11,6 @@ import SelectForm from "../../../components/SelectForm";
 export async function getServerSideProps({ params }) {
   //params.location gives the location part of URL
   //params.topic gives the topic part of the URL
-  console.log(params);
   // 1. Query database for datasets with respective topics params.topic
   if (params.location !== "favicon.ico") {
     const location = params.location;

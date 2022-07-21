@@ -15,7 +15,8 @@ export async function getServerSideProps({ params }) {
             apiURL !== null
                 ? await fetch(apiURL).then((resolve) => resolve.json())
                 : dataset?.metadata || null;
-
+        console.log(dataset);
+        console.log(metadata);
         const boroughData = dataset.data.data.filter(
             (object) => object.Geography === location
         );
@@ -35,7 +36,6 @@ export async function getServerSideProps({ params }) {
         //
 
         const lineChartId = await dataVisualiser(happinessCsv, indicator, location, 'd3-lines');
-        console.log(lineChartId);
         const tableId = await dataVisualiser(happinessCsv, indicator, location, 'tables');
 
         return {
@@ -58,8 +58,8 @@ export default function Indicator({
     lineChartId,
     tableId
 }) {
-    console.log(metadata);
 
+    console.log(62 + metadata);
 
     return (
         <main>
@@ -70,11 +70,11 @@ export default function Indicator({
             {/* <h3>Last updated: {metadata.release_date.substring(0, 4)}</h3> */}
             <p>Description: {metadata.description}</p>
             <div className="w-full h-[400px]">
-                <iframe ariaLabel={`A chart showing the change in ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${lineChartId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
+                <iframe aria-label={`A chart showing the change in ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${lineChartId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
                 </iframe>
             </div>
             <div className="w-1/2 h-[400px] m-auto">
-                <iframe ariaLabel={`A table for ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${tableId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
+                <iframe aria-label={`A table for ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${tableId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
                 </iframe>
             </div>
         </main>

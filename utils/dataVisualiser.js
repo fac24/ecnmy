@@ -21,7 +21,7 @@ export default async function dataVisualiser(happinessCsv, indicator, location, 
     })
     const postJson = await postResponse.json();
     const chartId = postJson.id;
-    console.log(chartId);
+
     const putResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
         method: 'PUT',
         headers: {
