@@ -67,7 +67,7 @@ export default function Indicator({
             <h2>
                 Name of study: {metadata.title}
             </h2>
-            {/* <h3>Last updated: {metadata.release_date.substring(0, 4)}</h3> */}
+            <h3>Last updated: {metadata.release_date.substring(0, 4)}</h3>
             <p>Description: {metadata.description}</p>
             <div className="w-full h-[400px]">
                 <iframe aria-label={`A chart showing the change in ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${lineChartId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
