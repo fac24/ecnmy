@@ -4,7 +4,6 @@ import {
 } from "../../../database/model";
 import Card from "../../../components/Card";
 import cardDataArranger from "../../../utils/cardDataArranger";
-import Select from "react-select";
 import selectOptions from "../../../utils/selectOptions";
 import SelectForm from "../../../components/SelectForm";
 
@@ -60,15 +59,14 @@ export default function Cards({
     return <Card dataset={dataset} key={index} location={location} />;
   });
   return (
-    <>
-      <h1>Card Page</h1>
+    <div className="">
       <SelectForm
         topicOptions={topicOptions}
         locationOptions={locationOptions}
         defaultValue={{ location, topic }}
+        invisible={true}
       />
-      {/*Present dropdown menus appropriate to those (i.e. first shows borough; second topic)*/}
-      <div className="flex justify-evenly flex-wrap">{cards}</div>
-    </>
+      <div className="flex justify-evenly flex-wrap mt-4">{cards}</div>
+    </div>
   );
 }

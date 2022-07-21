@@ -1,8 +1,13 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+import How from "./How";
 
 export default function NavBar() {
+  const router = useRouter();
+  const active =
+    router.route === "/" ? "home" : router.route === "/map" ? "map" : null;
   return (
-    <nav className="flex text-ecnmy-breeze justify-between max-w-4xl m-auto px-4 text-2xl bg-ecnmy-charcoal rounded-lg">
+    <nav className="flex text-ecnmy-breeze justify-between w-screen m-auto px-4 h-16 text-2xl bg-ecnmy-skyblue font-bold">
       <div>Data</div>
       <section className="flex space-x-6">
         <div className="flex items-center">
@@ -12,7 +17,15 @@ export default function NavBar() {
             alt=""
           />
           <Link href="/">
-            <a>Home</a>
+            <a
+              className={
+                active === "home"
+                  ? "text-ecnmy-charcoal underline"
+                  : "hover:text-ecnmy-charcoal hover:underline"
+              }
+            >
+              Home
+            </a>
           </Link>
         </div>
         <div className="flex items-center">
@@ -22,7 +35,15 @@ export default function NavBar() {
             alt=""
           />
           <Link href="/map">
-            <a>Map</a>
+            <a
+              className={
+                active === "map"
+                  ? "text-ecnmy-charcoal underline"
+                  : "hover:text-ecnmy-charcoal hover:underline"
+              }
+            >
+              Map
+            </a>
           </Link>
         </div>
         <div className="flex items-center">
@@ -31,9 +52,7 @@ export default function NavBar() {
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNAijsICRNxRmav5ikr__4kc9hbtTEsP-yuw&usqp=CAU"
             alt=""
           />
-          <Link href="/how">
-            <a>How</a>
-          </Link>
+          <How />
         </div>
       </section>
     </nav>
