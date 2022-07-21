@@ -15,7 +15,7 @@ export default function Card({ dataset, location }) {
     <div className="flex flex-col w-1/4 justify-evenly min-w-fit">
       <div className="bg-ecnmy-white mb-1 flex flex-col rounded-t-lg">
         {
-          <h2 className="capitalize bg-ecnmy-grape text-ecnmy-white m-3 p-2 self-center text-center rounded-lg w-10/12 text-lg font-bold">
+          <h2 className="capitalize relative overflow-visible bg-ecnmy-grape text-ecnmy-white m-3 p-2 self-center text-center rounded-lg w-10/12 text-lg font-bold">
             {dictionary.hasOwnProperty(dataset.indicator) ? (
               <>
                 <span
@@ -26,8 +26,14 @@ export default function Card({ dataset, location }) {
                   onBlur={handleHover}
                 >
                   {dataset.indicator}
-                </span>{" "}
-                <span className={`${hover ? "visible" : "invisible"}`}>
+                </span>
+                <span
+                  className={`${
+                    hover
+                      ? "absolute inset-x-0 -top-8 bg-ecnmy-pumpkin rounded-lg text-ecnmy-navy"
+                      : "hidden"
+                  }`}
+                >
                   {dictionary[dataset.indicator]}
                 </span>
               </>
