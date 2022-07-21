@@ -21,7 +21,9 @@ export async function getServerSideProps() {
 export default function Home({ topicOptions, locationOptions }) {
   return (
     <main>
-      <h1 className="blue">ECNMY DASHBOARD</h1>
+      <h1 className="text-7xl text-center font-bold text-ecnmy-charcoal mt-6 mb-4">
+        ECNMY DATA DASHBOARD
+      </h1>
       <SelectForm
         topicOptions={topicOptions}
         locationOptions={locationOptions}

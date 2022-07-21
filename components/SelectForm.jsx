@@ -1,9 +1,10 @@
-import Select from "react-select";
+import StyleSelect from "./StyleSelect";
 
 export default function SelectForm({
   locationOptions,
   topicOptions,
   defaultValue,
+  invisible,
 }) {
   const defaultLocation = defaultValue
     ? {
@@ -19,20 +20,22 @@ export default function SelectForm({
     : null;
   console.log(defaultLocation);
   return (
-    <form action="/api/location-topic-form" method="POST">
-      <label htmlFor="select-location">Select Location</label>
-      <Select
-        id="select-location"
-        name="location"
+    <form
+      action="/api/location-topic-form"
+      method="POST"
+      className="flex justify-evenly"
+    >
+      <StyleSelect
         options={locationOptions}
+        id="location"
         defaultValue={defaultLocation}
+        invisible={invisible}
       />
-      <label htmlFor="select-topic">Select Topic</label>
-      <Select
-        id="select-topic"
-        name="topic"
+      <StyleSelect
         options={topicOptions}
+        id="topic"
         defaultValue={defaultTopic}
+        invisible={invisible}
       />
       <button type="submit">GO!</button>
     </form>

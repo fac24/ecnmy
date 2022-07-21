@@ -10,6 +10,7 @@ export default function Card({ dataset, location }) {
   }
 
   const cardData = dataset.cardData;
+  if (cardData.isNull) return null;
   return (
     <div className="flex flex-col w-1/4 justify-evenly min-w-fit">
       <div className="bg-ecnmy-white mb-1 flex flex-col rounded-t-lg">
@@ -43,14 +44,22 @@ export default function Card({ dataset, location }) {
               {dataset.cardData.locationData.Value}
             </h3>
             <ul className="list-disc m-4 text-lg">
-              <li>This ranks {cardData.ranking}/33 of the London Boroughs</li>
-              <li>The London value is {cardData.londonData}</li>
-              <li>The Uk value is {cardData.ukData}</li>
+              {cardData.ranking > 0 ? (
+                <li>This ranks {cardData.ranking}/33 of the London Boroughs</li>
+              ) : null}
+              {location === "London" ? null : (
+                <li>The London value is {cardData.londonData}</li>
+              )}
+              {location === "United Kingdom" ? null : (
+                <li>The Uk value is {cardData.ukData}</li>
+              )}
               {cardData.change > 0 ? (
-                <li>This has increased by {cardData.change.toPrecision(3)}%</li>
+                <li>
+                  This has increased by {cardData.change?.toPrecision(3)}%
+                </li>
               ) : (
                 <li>
-                  This has decreased by {-cardData.change.toPrecision(3)}%
+                  This has decreased by {-cardData.change?.toPrecision(3)}%
                 </li>
               )}
             </ul>

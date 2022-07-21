@@ -49,9 +49,9 @@ export default function cardDataArranger(arr, location) {
       boroughCurrentYearData.findIndex((item) => item.Geography === location) +
       1; // +1 as 0 indexed
     const change = findChange(allCurrentYearData, lastYearsData, location);
-
+    const isNull = locationData.Value === "" ? true : false;
     return {
-      cardData: { locationData, ukData, londonData, ranking, change },
+      cardData: { locationData, ukData, londonData, ranking, change, isNull },
       indicator: dataset.indicator,
     };
   });
