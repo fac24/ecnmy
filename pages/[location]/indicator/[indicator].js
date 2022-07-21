@@ -2,7 +2,6 @@ import { selectDatasetByIndicator } from "../../../database/model";
 import cardDataArranger from "../../../utils/cardDataArranger";
 
 export async function getServerSideProps({ params }) {
-    console.log(params);
     if (params.location !== "favicon.ico") {
         const indicator = params.indicator;
         const location = params.location;
@@ -19,10 +18,9 @@ export async function getServerSideProps({ params }) {
         const boroughData = dataset.data.data.filter(
             (object) => object.Geography === location
         );
-        console.log(boroughData);
         const [locationDataset] = cardDataArranger([dataset], location);
         const happinessData = await selectDatasetByIndicator(indicator);
-        let happinessCsv = `Year,Value\n`
+        let happinessCsv = `Year,${indicator}\n`
         let boroughDataSortedByYear = boroughData.sort((a, b) => {
             return (
                 parseInt(a.Time.substring(0, 4)) - parseInt(b.Time.substring(0, 4))
@@ -32,7 +30,6 @@ export async function getServerSideProps({ params }) {
             .map(datum => {
                 happinessCsv += `${datum['Time']},${datum['Value']}\n`
             })
-        console.log(happinessCsv)
         //Geography,Values
         //
 
@@ -43,7 +40,7 @@ export async function getServerSideProps({ params }) {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                'title': 'Where do people live?',
+                'title': `A chart showing the change in ${indicator} in ${location}`,
                 'type': 'd3-lines',
                 'lastEditStep': 3
             })
@@ -74,7 +71,7 @@ export async function getServerSideProps({ params }) {
         });
 
         return {
-            props: { location, boroughData, metadata, locationDataset },
+            props: { location, boroughData, metadata, locationDataset, chartId },
         };
     } else {
         return {
@@ -90,7 +87,11 @@ export default function Indicator({
     boroughData,
     metadata,
     locationDataset,
+    chartId
 }) {
+
+
+
     return (
         <main>
             <h1 className="blue">Indicator Page</h1>
@@ -98,6 +99,7 @@ export default function Indicator({
                 {metadata.title}: {locationDataset.indicator}
             </h2>
             <p>{metadata.description}</p> */}
+            <iframe ariaLabel={`A chart showing the change in ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${chartId}/1/`} scrolling="no" frameBorder="0" height="400" ></iframe>
         </main>
     );
 }
