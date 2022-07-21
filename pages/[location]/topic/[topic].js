@@ -6,7 +6,6 @@ import Card from "../../../components/Card";
 import cardDataArranger from "../../../utils/cardDataArranger";
 import selectOptions from "../../../utils/selectOptions";
 import SelectForm from "../../../components/SelectForm";
-import HowInfo from "../../../components/How";
 
 export async function getServerSideProps({ params }) {
   //params.location gives the location part of URL

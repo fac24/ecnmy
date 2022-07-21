@@ -1,10 +1,5 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Cards from "../pages/[location]/topic/[topic]";
-import Link from "next/link";
-
-/* const home = (href = "/");
-console.log(home); */
 
 const howDesc = {
   "/": { page: "Home", how: "Homepage search for location and topic" },
@@ -21,10 +16,11 @@ const howDesc = {
 export default function How({ params }) {
   const [isOpen, setIsOpen] = useState(false);
   const info = howDesc[useRouter().route];
-  //const changeText = () => setHowInfo("some value changed");
+
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <div>
       <button onClick={togglePopup}>How</button>
@@ -44,15 +40,6 @@ export default function How({ params }) {
           </div>
         </div>
       ) : null}
-
-      {/* <h1>{howInfo}</h1>
-
-      <Link href="/" className="tc ma5" onClick={changeText}>
-        <a>
-          <Cards />
-        </a>
-        Click Me to change title
-      </Link> */}
     </div>
   );
 }

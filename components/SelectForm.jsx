@@ -1,4 +1,3 @@
-import Select from "react-select";
 import StyleSelect from "./StyleSelect";
 
 export default function SelectForm({

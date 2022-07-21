@@ -1,4 +1,3 @@
-import HowInfo from "../components/How";
 import SelectForm from "../components/SelectForm";
 import { selectAllByServerSideParam } from "../database/model";
 
