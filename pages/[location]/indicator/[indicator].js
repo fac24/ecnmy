@@ -47,7 +47,6 @@ export async function getServerSideProps({ params }) {
         })
         const postJson = await postResponse.json();
         const chartId = postJson.id;
-        console.log(chartId);
         const putResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
             method: 'PUT',
             headers: {
@@ -89,18 +88,19 @@ export default function Indicator({
     locationDataset,
     chartId
 }) {
-
+    console.log(metadata);
 
 
     return (
         <main>
-            <h1 className="blue">Indicator Page</h1>
+            <h1 className="blue capitalize">{locationDataset.indicator} in {location}</h1>
             <h2>
-                {metadata.title}: {locationDataset.indicator}
+                Name of study: {metadata.title}
             </h2>
-            <p>{metadata.description}</p>
-            <div>
-                <iframe ariaLabel={`A chart showing the change in ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${chartId}/1/`} scrolling="no" frameBorder="0" height="400">
+            {/* <h3>Last updated: {metadata.release_date.substring(0, 4)}</h3> */}
+            <p>Description: {metadata.description}</p>
+            <div className="w-full h-[400px]">
+                <iframe ariaLabel={`A chart showing the change in ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${chartId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
                 </iframe>
             </div>
         </main>
