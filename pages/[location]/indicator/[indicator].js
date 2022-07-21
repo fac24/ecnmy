@@ -1,5 +1,6 @@
 import { selectDatasetByIndicator } from "../../../database/model";
 import cardDataArranger from "../../../utils/cardDataArranger";
+import dataVisualiser from "../../../utils/dataVisualiser";
 
 export async function getServerSideProps({ params }) {
     if (params.location !== "favicon.ico") {
@@ -33,44 +34,12 @@ export async function getServerSideProps({ params }) {
         //Geography,Values
         //
 
-        const postResponse = await fetch('https://api.datawrapper.de/v3/charts', {
-            method: 'POST',
-            headers: {
-                'Authorization': process.env.API_KEY,
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                'title': `A chart showing the change in ${indicator} in ${location}`,
-                'type': 'd3-lines',
-                'lastEditStep': 3
-            })
-        })
-        const postJson = await postResponse.json();
-        const chartId = postJson.id;
-        const putResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': process.env.API_KEY,
-                'content-type': 'text/csv'
-            },
-
-            body: happinessCsv
-        })
-        const getResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
-            method: 'GET',
-            headers: {
-                'Authorization': process.env.API_KEY,
-            }
-        })
-        const publishResponse = await fetch(`https://api.datawrapper.de/charts/${chartId}/publish`, {
-            method: 'POST',
-            headers: {
-                'Authorization': process.env.API_KEY,
-            }
-        });
+        const lineChartId = await dataVisualiser(happinessCsv, indicator, location, 'd3-lines');
+        console.log(lineChartId);
+        const tableId = await dataVisualiser(happinessCsv, indicator, location, 'tables');
 
         return {
-            props: { location, boroughData, metadata, locationDataset, chartId },
+            props: { location, boroughData, metadata, locationDataset, lineChartId, tableId },
         };
     } else {
         return {
@@ -86,7 +55,8 @@ export default function Indicator({
     boroughData,
     metadata,
     locationDataset,
-    chartId
+    lineChartId,
+    tableId
 }) {
     console.log(metadata);
 
@@ -100,7 +70,11 @@ export default function Indicator({
             {/* <h3>Last updated: {metadata.release_date.substring(0, 4)}</h3> */}
             <p>Description: {metadata.description}</p>
             <div className="w-full h-[400px]">
-                <iframe ariaLabel={`A chart showing the change in ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${chartId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
+                <iframe ariaLabel={`A chart showing the change in ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${lineChartId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
+                </iframe>
+            </div>
+            <div className="w-1/2 h-[400px] m-auto">
+                <iframe ariaLabel={`A table for ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${tableId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
                 </iframe>
             </div>
         </main>
