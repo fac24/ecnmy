@@ -68,7 +68,7 @@ export default function Cards({
         defaultValue={{ location, topic }}
       />
       {/*Present dropdown menus appropriate to those (i.e. first shows borough; second topic)*/}
-      <div className="flex justify-evenly">{cards}</div>
+      <div className="flex justify-evenly flex-wrap">{cards}</div>
     </>
   );
 }

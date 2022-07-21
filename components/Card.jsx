@@ -11,8 +11,8 @@ export default function Card({ dataset, location }) {
 
   const cardData = dataset.cardData;
   return (
-    <div className="flex flex-col w-1/4 justify-evenly">
-      <div className="bg-ecnmy-white mb-1 flex flex-wrap flex-col rounded-t-lg">
+    <div className="flex flex-col w-1/4 justify-evenly min-w-fit">
+      <div className="bg-ecnmy-white mb-1 flex flex-col rounded-t-lg">
         {
           <h2 className="capitalize bg-ecnmy-grape text-ecnmy-white m-3 p-2 self-center text-center rounded-lg w-10/12 text-lg font-bold">
             {dictionary.hasOwnProperty(dataset.indicator) ? (
