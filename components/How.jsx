@@ -23,7 +23,16 @@ export default function How({ params }) {
 
   return (
     <div>
-      <button onClick={togglePopup}>How</button>
+      <button
+        onClick={togglePopup}
+        className={
+          isOpen
+            ? "text-ecnmy-charcoal underline"
+            : "hover:text-ecnmy-charcoal hover:underline"
+        }
+      >
+        How
+      </button>
       {isOpen ? (
         <div className="greyed-bg fixed w-full h-screen top-0 left-0 z-[1]">
           <div className="box relative h-auto rounded p-5 overflow-auto bg-ecnmy-white border">

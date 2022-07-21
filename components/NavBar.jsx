@@ -37,7 +37,9 @@ export default function NavBar() {
           <Link href="/map">
             <a
               className={
-                active === "map" ? "text-ecnmy-charcoal underline" : null
+                active === "map"
+                  ? "text-ecnmy-charcoal underline"
+                  : "hover:text-ecnmy-charcoal hover:underline"
               }
             >
               Map
