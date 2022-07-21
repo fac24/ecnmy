@@ -95,11 +95,14 @@ export default function Indicator({
     return (
         <main>
             <h1 className="blue">Indicator Page</h1>
-            {/* <h2>
+            <h2>
                 {metadata.title}: {locationDataset.indicator}
             </h2>
-            <p>{metadata.description}</p> */}
-            <iframe ariaLabel={`A chart showing the change in ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${chartId}/1/`} scrolling="no" frameBorder="0" height="400" ></iframe>
+            <p>{metadata.description}</p>
+            <div>
+                <iframe ariaLabel={`A chart showing the change in ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${chartId}/1/`} scrolling="no" frameBorder="0" height="400">
+                </iframe>
+            </div>
         </main>
     );
 }
