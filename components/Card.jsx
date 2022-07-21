@@ -51,7 +51,7 @@ export default function Card({ dataset, location }) {
                 <li>The London value is {cardData.londonData}</li>
               )}
               {location === "United Kingdom" ? null : (
-                <li>The Uk value is {cardData.ukData}</li>
+                <li>The UK value is {cardData.ukData}</li>
               )}
               {cardData.change > 0 ? (
                 <li>
