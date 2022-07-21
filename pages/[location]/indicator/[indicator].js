@@ -36,7 +36,7 @@ export async function getServerSideProps({ params }) {
         const postResponse = await fetch('https://api.datawrapper.de/v3/charts', {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer slNaD4OuOSP9GyCSKCLi6rECSkMGqWySPDmPzXFBXaTKU1IwMl41Jx6BnG1p6CCT',
+                'Authorization': process.env.API_KEY,
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
@@ -50,7 +50,7 @@ export async function getServerSideProps({ params }) {
         const putResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
             method: 'PUT',
             headers: {
-                'Authorization': 'Bearer slNaD4OuOSP9GyCSKCLi6rECSkMGqWySPDmPzXFBXaTKU1IwMl41Jx6BnG1p6CCT',
+                'Authorization': process.env.API_KEY,
                 'content-type': 'text/csv'
             },
 
@@ -59,13 +59,13 @@ export async function getServerSideProps({ params }) {
         const getResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
             method: 'GET',
             headers: {
-                'Authorization': 'Bearer slNaD4OuOSP9GyCSKCLi6rECSkMGqWySPDmPzXFBXaTKU1IwMl41Jx6BnG1p6CCT',
+                'Authorization': process.env.API_KEY,
             }
         })
         const publishResponse = await fetch(`https://api.datawrapper.de/charts/${chartId}/publish`, {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer slNaD4OuOSP9GyCSKCLi6rECSkMGqWySPDmPzXFBXaTKU1IwMl41Jx6BnG1p6CCT',
+                'Authorization': process.env.API_KEY,
             }
         });
 
