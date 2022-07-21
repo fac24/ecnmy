@@ -1,15 +1,8 @@
-import Select from "react-select";
+import SelectForm from "../components/SelectForm";
 import { selectAllByServerSideParam } from "../database/model";
 
 // Turns the rows got from the db into options for the react-select component
-const selectOptions = (rows) => {
-  return rows.map((item) => {
-    return {
-      value: item.name,
-      label: item.name,
-    };
-  });
-};
+import selectOptions from "../utils/selectOptions";
 
 export async function getServerSideProps() {
   // Get locations and topics
@@ -29,17 +22,10 @@ export default function Home({ topicOptions, locationOptions }) {
   return (
     <main>
       <h1 className="blue">ECNMY DASHBOARD</h1>
-      <form action="/api/location-topic-form" method="POST">
-        <label htmlFor="select-location">Select Location</label>
-        <Select
-          id="select-location"
-          name="location"
-          options={locationOptions}
-        />
-        <label htmlFor="select-topic">Select Topic</label>
-        <Select id="select-topic" name="topic" options={topicOptions} />
-        <button type="submit">GO!</button>
-      </form>
+      <SelectForm
+        topicOptions={topicOptions}
+        locationOptions={locationOptions}
+      />
     </main>
   );
 }
