@@ -38,9 +38,10 @@ export async function getServerSideProps({ params }) {
         const lineChartId = await dataVisualiser(indicatorCsv, indicator, location, 'd3-lines');
         const tableId = await dataVisualiser(indicatorCsv, indicator, location, 'tables');
         const test = await dataVisualiser(indicatorCsv, indicator, location, 'd3-maps-choropleth');
-
+        console.log("test");
+        console.log(test);
         return {
-            props: { location, boroughData, metadata, locationDataset, lineChartId, tableId, yearNumber },
+            props: { location, boroughData, metadata, locationDataset, lineChartId, tableId, yearNumber, test },
         };
     } else {
         return {
@@ -78,7 +79,7 @@ export default function Indicator({
                 </iframe>
             </div> */}
             <div className={`w-1/2 h-[1600px] m-auto`}>
-                <iframe aria-label={`A table for ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${test}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
+                <iframe id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${test}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
                 </iframe>
             </div>
         </main>
