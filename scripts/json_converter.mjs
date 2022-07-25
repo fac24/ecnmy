@@ -22,8 +22,26 @@ const jsonConverter = async () => {
     delete item["Data Marking"];
     delete item["yyyy-yy"];
   });
+  const happinessMetadataAPI = await fetch(
+    "https://api.beta.ons.gov.uk/v1/datasets/wellbeing-quarterly/editions/time-series/versions/4/metadata"
+  ).then((resolve) => resolve.json());
+
+  const happinessReleaseDate = happinessMetadataAPI.release_date.substring(
+    0,
+    10
+  );
+
   const happinessMetadata = {
-    api: "https://api.beta.ons.gov.uk/v1/datasets/wellbeing-quarterly/editions/time-series/versions/4/metadata",
+    description: happinessMetadataAPI.description,
+    downloads: happinessMetadataAPI.downloads,
+    keywords: happinessMetadataAPI.keywords,
+    methodologies: happinessMetadataAPI.methodologies,
+    related_datasets: happinessMetadataAPI.related_datasets,
+    release_date: happinessReleaseDate,
+    title: happinessMetadataAPI.title,
+    source: "ONS",
+    sampleSize: "150000 (UK wide)",
+    tooltips: ["Happiness"],
   };
 
   const totalClaimData = totalClaim.data;
@@ -42,21 +60,28 @@ const jsonConverter = async () => {
 
   totalClaim.data = tidyClaimData;
   let totalClaimMetadata = {
-    description: "This experimental series counts the number of people claiming Jobseeker''s Allowance plus those who claim Universal Credit and are required to seek work and be available for work and replaces the number of people claiming Jobseeker''s Allowance as the headline indicator of the number of people claiming benefits principally for the reason of being unemployed. (summary from NOMIS, using data gathered by the ONS)",
+    description:
+      "This experimental series counts the number of people claiming Jobseeker''s Allowance plus those who claim Universal Credit and are required to seek work and be available for work and replaces the number of people claiming Jobseeker''s Allowance as the headline indicator of the number of people claiming benefits principally for the reason of being unemployed. (summary from NOMIS, using data gathered by the ONS)",
     downloads: null,
-    keywords: ['poverty', 'universal credit', 'jobseekers allowance'],
-    methodologies: { href: 'https://www.nomisweb.co.uk/query/asv2htm', title: 'Warnings and notes' },
+    keywords: ["poverty", "universal credit", "jobseekers allowance"],
+    methodologies: {
+      href: "https://www.nomisweb.co.uk/query/asv2htm",
+      title: "Warnings and notes",
+    },
     related_datasets: null,
-    title: 'Claimant count by age and sex',
-    release_date: "2022-07-19T07:00:00.000Z"
-  }
+    title: "Claimant count by age and sex",
+    release_date: "2022-07-19",
+    source: "Nomis",
+    sampleSize: null,
+    tooltips: ["JSA", "UC"],
+  };
   let sqlOutput = /*SQL*/ `BEGIN;\n\nINSERT INTO datasets (indicator, data, metadata) VALUES\n`;
 
   sqlOutput += `
     ('happiness', '${JSON.stringify(happiness)}', '${JSON.stringify(
     happinessMetadata
   )}'),\n`;
-  sqlOutput += `('totalClaim', '${JSON.stringify(
+  sqlOutput += `('Total JSA and UC claimants', '${JSON.stringify(
     totalClaim
   )}', '${JSON.stringify(totalClaimMetadata)}'),\n`;
   sqlOutput = sqlOutput.substring(0, sqlOutput.length - 2) + ";";
