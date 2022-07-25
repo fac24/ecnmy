@@ -20,7 +20,7 @@ export async function getServerSideProps({ params }) {
         );
         const [locationDataset] = cardDataArranger([dataset], location);
         const happinessData = await selectDatasetByIndicator(indicator);
-        let happinessCsv = `Year,${indicator}\n`
+        let indicatorCsv = `Year,${indicator}\n`
         let boroughDataSortedByYear = boroughData.sort((a, b) => {
             return (
                 parseInt(a.Time.substring(0, 4)) - parseInt(b.Time.substring(0, 4))
@@ -30,13 +30,14 @@ export async function getServerSideProps({ params }) {
 
         boroughDataSortedByYear
             .map(datum => {
-                happinessCsv += `${datum['Time']},${datum['Value']}\n`
+                indicatorCsv += `${datum['Time']},${datum['Value']}\n`
             })
         //Geography,Values
         //
 
-        const lineChartId = await dataVisualiser(happinessCsv, indicator, location, 'd3-lines');
-        const tableId = await dataVisualiser(happinessCsv, indicator, location, 'tables');
+        const lineChartId = await dataVisualiser(indicatorCsv, indicator, location, 'd3-lines');
+        const tableId = await dataVisualiser(indicatorCsv, indicator, location, 'tables');
+        const test = await dataVisualiser(indicatorCsv, indicator, location, 'd3-maps-choropleth');
 
         return {
             props: { location, boroughData, metadata, locationDataset, lineChartId, tableId, yearNumber },
@@ -57,7 +58,8 @@ export default function Indicator({
     locationDataset,
     lineChartId,
     tableId,
-    yearNumber
+    yearNumber,
+    test
 }) {
     return (
         <main>
@@ -67,12 +69,16 @@ export default function Indicator({
             </h2>
             <h3>Last updated: {metadata.release_date.substring(0, 4)}</h3>
             <p>Description: {metadata.description}</p>
-            <div className="w-full h-[400px]">
+            {/* <div className="w-full h-[400px]">
                 <iframe aria-label={`A chart showing the change in ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${lineChartId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
                 </iframe>
             </div>
             <div className={`w-1/2 h-[1600px] m-auto`}>
                 <iframe aria-label={`A table for ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${tableId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
+                </iframe>
+            </div> */}
+            <div className={`w-1/2 h-[1600px] m-auto`}>
+                <iframe aria-label={`A table for ${indicator} in ${location}`} id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${test}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
                 </iframe>
             </div>
         </main>
