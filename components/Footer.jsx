@@ -67,9 +67,6 @@ export default function Footer() {
         </a>
 
         <p className=" text-xs">
-          <span className="text-sm py-1 font-semibold">
-            About <i>Economy</i>:
-          </span>{" "}
           <i>Economy</i>’s vision is of a flourishing and sustainable society in
           which there is diverse and inclusive public conversation about the
           economy, and economics is a tool everybody can use to make confident
