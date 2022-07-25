@@ -40,10 +40,8 @@ export default function cardDataArranger(arr, location) {
       .sort((a, b) => b.Value - a.Value);
 
     const locationData = getDataByGeography(allCurrentYearData, location);
-    const ukData = getDataByGeography(
-      allCurrentYearData,
-      "United Kingdom"
-    ).Value;
+    const ukData =
+      getDataByGeography(allCurrentYearData, "United Kingdom")?.Value || null;
     const londonData = getDataByGeography(allCurrentYearData, "London").Value;
     const ranking =
       boroughCurrentYearData.findIndex((item) => item.Geography === location) +
@@ -53,6 +51,7 @@ export default function cardDataArranger(arr, location) {
     return {
       cardData: { locationData, ukData, londonData, ranking, change, isNull },
       indicator: dataset.indicator,
+      metadata: dataset.metadata,
     };
   });
 }
