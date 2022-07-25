@@ -1,6 +1,7 @@
 import { dictionary } from "../database/dictionary";
 import { useState } from "react";
 import Link from "next/link";
+import ToolTip from "./Tooltip";
 
 export default function Card({ dataset, location }) {
   const [hover, setHover] = useState(false);
@@ -14,34 +15,10 @@ export default function Card({ dataset, location }) {
   return (
     <div className="flex flex-col w-1/4 justify-evenly min-w-fit">
       <div className="bg-ecnmy-white mb-1 flex flex-col rounded-t-lg">
-        {
-          <h2 className="capitalize relative overflow-visible bg-ecnmy-grape text-ecnmy-white m-3 p-2 self-center text-center rounded-lg w-10/12 text-lg font-bold">
-            {dictionary.hasOwnProperty(dataset.indicator) ? (
-              <>
-                <span
-                  tabIndex={0}
-                  onMouseEnter={handleHover}
-                  onMouseLeave={handleHover}
-                  onFocus={handleHover}
-                  onBlur={handleHover}
-                >
-                  {dataset.indicator}
-                </span>
-                <span
-                  className={`${
-                    hover
-                      ? "absolute inset-x-0 -top-8 bg-ecnmy-pumpkin rounded-lg text-ecnmy-navy"
-                      : "hidden"
-                  }`}
-                >
-                  {dictionary[dataset.indicator]}
-                </span>
-              </>
-            ) : (
-              dataset.indicator
-            )}
-          </h2>
-        }
+        <ToolTip
+          indicator={dataset.indicator}
+          tooltips={dataset.metadata.tooltips}
+        />
       </div>
       <div className="bg-ecnmy-white mb-1 p-4 rounded-b-lg">
         <Link href={`/${location}/indicator/${dataset.indicator}`}>

@@ -1,5 +1,7 @@
 import fs from "fs";
 import fetch from "node-fetch";
+import lifeExpectancy from "../utils/lifeExpectancy.mjs";
+import wellbeing from "../utils/wellbeing.mjs";
 
 async function jsonParser(file) {
   /* const data = await JSON.parse(
@@ -14,17 +16,23 @@ async function jsonParser(file) {
 }
 
 const jsonConverter = async () => {
-  const happiness = await jsonParser("./datasets/happiness.json");
+  const [happiness, happinessMetadata] = await wellbeing(
+    "./datasets/happiness.json",
+    ["happiness"]
+  );
+  const [anxiety, anxietyMetadata] = await wellbeing(
+    "./datasets/anxiety.json",
+    ["anxiety"]
+  );
+  const [femaleLifeExpectancy, femaleLifeExpectancyMetadata] =
+    await lifeExpectancy("./datasets/female_life_expectancy.json", [
+      "life expectancy",
+    ]);
+  const [maleLifeExpectancy, maleLifeExpectancyMetadata] = await lifeExpectancy(
+    "./datasets/male_life_expectancy.json",
+    ["life expectancy"]
+  );
   const totalClaim = await jsonParser("./datasets/totalClaim.json");
-
-  happiness.data.forEach((item) => {
-    delete Object.assign(item, { ["Value"]: item["V4_3"] })["V4_3"];
-    delete item["Data Marking"];
-    delete item["yyyy-yy"];
-  });
-  const happinessMetadata = {
-    api: "https://api.beta.ons.gov.uk/v1/datasets/wellbeing-quarterly/editions/time-series/versions/4/metadata",
-  };
 
   const totalClaimData = totalClaim.data;
 
@@ -42,21 +50,43 @@ const jsonConverter = async () => {
 
   totalClaim.data = tidyClaimData;
   let totalClaimMetadata = {
-    description: "This experimental series counts the number of people claiming Jobseeker''s Allowance plus those who claim Universal Credit and are required to seek work and be available for work and replaces the number of people claiming Jobseeker''s Allowance as the headline indicator of the number of people claiming benefits principally for the reason of being unemployed. (summary from NOMIS, using data gathered by the ONS)",
+    description:
+      "This experimental series counts the number of people claiming Jobseeker''s Allowance plus those who claim Universal Credit and are required to seek work and be available for work and replaces the number of people claiming Jobseeker''s Allowance as the headline indicator of the number of people claiming benefits principally for the reason of being unemployed. (summary from NOMIS, using data gathered by the ONS)",
     downloads: null,
-    keywords: ['poverty', 'universal credit', 'jobseekers allowance'],
-    methodologies: { href: 'https://www.nomisweb.co.uk/query/asv2htm', title: 'Warnings and notes' },
+    keywords: ["poverty", "universal credit", "jobseekers allowance"],
+    methodologies: {
+      href: "https://www.nomisweb.co.uk/query/asv2htm",
+      title: "Warnings and notes",
+    },
     related_datasets: null,
-    title: 'Claimant count by age and sex',
-    release_date: "2022-07-19T07:00:00.000Z"
-  }
+    title: "Claimant count by age and sex",
+    release_date: "2022-07-19",
+    source: "Nomis",
+    sampleSize: null,
+    tooltips: ["JSA", "UC"],
+  };
   let sqlOutput = /*SQL*/ `BEGIN;\n\nINSERT INTO datasets (indicator, data, metadata) VALUES\n`;
 
   sqlOutput += `
     ('happiness', '${JSON.stringify(happiness)}', '${JSON.stringify(
     happinessMetadata
   )}'),\n`;
-  sqlOutput += `('totalClaim', '${JSON.stringify(
+  sqlOutput += `
+    ('anxiety', '${JSON.stringify(anxiety)}', '${JSON.stringify(
+    anxietyMetadata
+  )}'),\n
+  `;
+  sqlOutput += `
+    ('female life expectancy', '${JSON.stringify(
+      femaleLifeExpectancy
+    )}', '${JSON.stringify(femaleLifeExpectancyMetadata)}'),\n
+  `;
+  sqlOutput += `
+    ('male life expectancy', '${JSON.stringify(
+      maleLifeExpectancy
+    )}', '${JSON.stringify(maleLifeExpectancyMetadata)}'),\n
+  `;
+  sqlOutput += `('Total JSA and UC claimants', '${JSON.stringify(
     totalClaim
   )}', '${JSON.stringify(totalClaimMetadata)}'),\n`;
   sqlOutput = sqlOutput.substring(0, sqlOutput.length - 2) + ";";

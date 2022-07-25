@@ -45,11 +45,11 @@ export async function getServerSideProps({ params }) {
         topicOptions,
         topic: params.topic,
       },
-    }
+    };
   } else {
     return {
-      props: {}
-    }
+      props: {},
+    };
   }
 }
 
