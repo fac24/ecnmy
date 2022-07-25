@@ -4,7 +4,7 @@ import ecnmyLogo from "../public/images/ecnmy-logo-white-background.png";
 import onsLogo from "../public/images/ons-logo-white-background.png";
 export default function Footer() {
     return (
-        <footer className="text-xs bg-pistachioGreen pt-6 pb-8 px-11">
+        <footer className="text-xs pt-6 pb-8 px-11">
             <div className="grid grid-cols-2 gap-6 px-4 wrap-items">
                 <div className="">
                     <h2 className="text-[16px] py-1 font-semibold">About <i>Economy</i></h2>
