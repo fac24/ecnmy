@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import How from "./How";
+import Image from "next/image";
 
 export default function NavBar() {
   const router = useRouter();
@@ -8,7 +9,9 @@ export default function NavBar() {
     router.route === "/" ? "home" : router.route === "/map" ? "map" : null;
   return (
     <nav className="flex text-ecnmy-breeze justify-between w-screen m-auto px-4 h-16 text-2xl bg-ecnmy-skyblue font-bold">
-      <div>Data</div>
+      <div>
+        <Image src={ecnmyLogo} alt="logo for the charity 'Economy'" />
+      </div>
       <section className="flex space-x-6">
         <div className="flex items-center">
           <img

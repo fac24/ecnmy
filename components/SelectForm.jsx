@@ -23,21 +23,29 @@ export default function SelectForm({
     <form
       action="/api/location-topic-form"
       method="POST"
-      className="flex justify-evenly"
+      className="grid place-items-center gap-3 p-10"
     >
-      <StyleSelect
-        options={locationOptions}
-        id="location"
-        defaultValue={defaultLocation}
-        invisible={invisible}
-      />
-      <StyleSelect
-        options={topicOptions}
-        id="topic"
-        defaultValue={defaultTopic}
-        invisible={invisible}
-      />
-      <button type="submit">GO!</button>
+      <div className="flex justify-around w-full max-w-xl m-auto flex-wrap">
+        <StyleSelect
+          options={locationOptions}
+          id="location"
+          defaultValue={defaultLocation}
+          invisible={invisible}
+        />
+        <StyleSelect
+          options={topicOptions}
+          id="topic"
+          defaultValue={defaultTopic}
+          invisible={invisible}
+        />
+      </div>
+
+      <button
+        className=" text-lg px-4 py-2 bg-ecnmy-mint rounded-xl hover:font-bold"
+        type="submit"
+      >
+        GO!
+      </button>
     </form>
   );
 }
