@@ -8,10 +8,7 @@ export default function NavBar() {
   const active =
     router.route === "/" ? "home" : router.route === "/map" ? "map" : null;
   return (
-    <nav className="flex text-ecnmy-breeze justify-between w-screen m-auto px-4 h-16 text-2xl bg-ecnmy-skyblue font-bold">
-      <div>
-        <Image src={ecnmyLogo} alt="logo for the charity 'Economy'" />
-      </div>
+    <nav className="grid place-items-center text-ecnmy-breeze  w-screen m-auto px-4 h-16 text-2xl bg-ecnmy-skyblue font-bold">
       <section className="flex space-x-6">
         <div className="flex items-center">
           <img
