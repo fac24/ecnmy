@@ -1,5 +1,6 @@
 import fs from "fs";
 import fetch from "node-fetch";
+import wellbeing from "../utils/wellbeing.mjs";
 
 async function jsonParser(file) {
   /* const data = await JSON.parse(
@@ -14,35 +15,15 @@ async function jsonParser(file) {
 }
 
 const jsonConverter = async () => {
-  const happiness = await jsonParser("./datasets/happiness.json");
-  const totalClaim = await jsonParser("./datasets/totalClaim.json");
-
-  happiness.data.forEach((item) => {
-    delete Object.assign(item, { ["Value"]: item["V4_3"] })["V4_3"];
-    delete item["Data Marking"];
-    delete item["yyyy-yy"];
-  });
-  const happinessMetadataAPI = await fetch(
-    "https://api.beta.ons.gov.uk/v1/datasets/wellbeing-quarterly/editions/time-series/versions/4/metadata"
-  ).then((resolve) => resolve.json());
-
-  const happinessReleaseDate = happinessMetadataAPI.release_date.substring(
-    0,
-    10
+  const [happiness, happinessMetadata] = await wellbeing(
+    "./datasets/happiness.json",
+    ["happiness"]
   );
-
-  const happinessMetadata = {
-    description: happinessMetadataAPI.description,
-    downloads: happinessMetadataAPI.downloads,
-    keywords: happinessMetadataAPI.keywords,
-    methodologies: happinessMetadataAPI.methodologies,
-    related_datasets: happinessMetadataAPI.related_datasets,
-    release_date: happinessReleaseDate,
-    title: happinessMetadataAPI.title,
-    source: "ONS",
-    sampleSize: "150000 (UK wide)",
-    tooltips: ["Happiness"],
-  };
+  const [anxiety, anxietyMetadata] = await wellbeing(
+    "./datasets/anxiety.json",
+    ["anxiety"]
+  );
+  const totalClaim = await jsonParser("./datasets/totalClaim.json");
 
   const totalClaimData = totalClaim.data;
 
@@ -81,6 +62,11 @@ const jsonConverter = async () => {
     ('happiness', '${JSON.stringify(happiness)}', '${JSON.stringify(
     happinessMetadata
   )}'),\n`;
+  sqlOutput += `
+    ('anxiety', '${JSON.stringify(anxiety)}', '${JSON.stringify(
+    anxietyMetadata
+  )}'),\n
+  `;
   sqlOutput += `('Total JSA and UC claimants', '${JSON.stringify(
     totalClaim
   )}', '${JSON.stringify(totalClaimMetadata)}'),\n`;
