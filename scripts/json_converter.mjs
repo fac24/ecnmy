@@ -1,5 +1,6 @@
 import fs from "fs";
 import fetch from "node-fetch";
+import lifeExpectancy from "../utils/lifeExpectancy.mjs";
 import wellbeing from "../utils/wellbeing.mjs";
 
 async function jsonParser(file) {
@@ -22,6 +23,14 @@ const jsonConverter = async () => {
   const [anxiety, anxietyMetadata] = await wellbeing(
     "./datasets/anxiety.json",
     ["anxiety"]
+  );
+  const [femaleLifeExpectancy, femaleLifeExpectancyMetadata] =
+    await lifeExpectancy("./datasets/female_life_expectancy.json", [
+      "life expectancy",
+    ]);
+  const [maleLifeExpectancy, maleLifeExpectancyMetadata] = await lifeExpectancy(
+    "./datasets/male_life_expectancy.json",
+    ["life expectancy"]
   );
   const totalClaim = await jsonParser("./datasets/totalClaim.json");
 
@@ -66,6 +75,16 @@ const jsonConverter = async () => {
     ('anxiety', '${JSON.stringify(anxiety)}', '${JSON.stringify(
     anxietyMetadata
   )}'),\n
+  `;
+  sqlOutput += `
+    ('female life expectancy', '${JSON.stringify(
+      femaleLifeExpectancy
+    )}', '${JSON.stringify(femaleLifeExpectancyMetadata)}'),\n
+  `;
+  sqlOutput += `
+    ('male life expectancy', '${JSON.stringify(
+      maleLifeExpectancy
+    )}', '${JSON.stringify(maleLifeExpectancyMetadata)}'),\n
   `;
   sqlOutput += `('Total JSA and UC claimants', '${JSON.stringify(
     totalClaim
