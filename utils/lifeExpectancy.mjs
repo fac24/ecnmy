@@ -39,7 +39,7 @@ export default async function lifeExpectancy(route, tooltip) {
     release_date: releaseDate,
     title: metadataAPI.title,
     source: "ONS",
-    sampleSize: "320000 (UK wide)",
+    sampleSize: "320,000 (UK wide)",
     tooltips: tooltip,
   };
 
