@@ -21,39 +21,51 @@ export default function Card({ dataset, location }) {
         />
       </div>
       <div className="bg-ecnmy-white mb-1 p-4 rounded-b-lg">
-        <Link href={`/${location}/indicator/${dataset.indicator}`}>
-          <a>
-            <h3 className="text-ecnmy-navy text-4xl text-center font-semibold">
-              {dataset.cardData.locationData.Value.toLocaleString("en-UK")}
-            </h3>
-            <ul className="list-disc m-4 text-base">
-              {cardData.change > 0 ? (
-                <li>
-                  This has increased by {cardData.change?.toPrecision(3)}% from
-                  the previous collection ({cardData.previousYear})
-                </li>
-              ) : (
-                <li>
-                  This has decreased by {-cardData.change?.toPrecision(3)}% from
-                  the previous collection ({cardData.previousYear})
-                </li>
-              )}
-              {cardData.ranking > 0 ? (
-                <li>This ranks {cardData.ranking}/33 of the London Boroughs</li>
-              ) : null}
-              {location === "London" ? null : (
-                <li>London: {cardData.londonData?.toLocaleString("en-UK")}</li>
-              )}
-              {location === "United Kingdom" ? null : (
-                <li>UK: {cardData.ukData?.toLocaleString("en-UK")}</li>
-              )}
-            </ul>
-            <HealthWarning
-              metadata={dataset.metadata}
-              year={cardData.currentYear}
-            />
-          </a>
-        </Link>
+        <h3 className="text-ecnmy-navy text-4xl text-center font-semibold">
+          {dataset.cardData.locationData.Value.toLocaleString("en-UK")}
+        </h3>
+        <ul className="list-disc m-4 text-base">
+          {cardData.change > 0 ? (
+            <li>
+              This has increased by {cardData.change?.toPrecision(3)}% from the
+              previous collection ({cardData.previousYear})
+            </li>
+          ) : (
+            <li>
+              This has decreased by {-cardData.change?.toPrecision(3)}% from the
+              previous collection ({cardData.previousYear})
+            </li>
+          )}
+          {cardData.ranking > 0 ? (
+            <li>This ranks {cardData.ranking}/33 of the London Boroughs</li>
+          ) : null}
+          {location === "London" ? null : (
+            <li>London: {cardData.londonData?.toLocaleString("en-UK")}</li>
+          )}
+          {location === "United Kingdom" ? null : (
+            <li>UK: {cardData.ukData?.toLocaleString("en-UK")}</li>
+          )}
+        </ul>
+
+        <section className="flex justify-between items-center">
+          <Link href={`/${location}/indicator/${dataset.indicator}`}>
+            <a className="underline font-semibold hover:font-bold text-ecnmy-pumpkin">
+              More Info
+            </a>
+          </Link>
+
+          <p className="flex items-center">
+            {dataset.metadata.source}
+            {", "}
+            {cardData.currentYear}
+            <div>
+              <HealthWarning
+                metadata={dataset.metadata}
+                year={cardData.currentYear}
+              />
+            </div>
+          </p>
+        </section>
       </div>
     </div>
   );
