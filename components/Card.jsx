@@ -2,6 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import ToolTip from "./Tooltip";
 import HealthWarning from "./HealthWarning";
+import React from "react";
 
 export default function Card({ dataset, location }) {
   const [hover, setHover] = useState(false);
