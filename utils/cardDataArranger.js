@@ -48,8 +48,20 @@ export default function cardDataArranger(arr, location) {
       1; // +1 as 0 indexed
     const change = findChange(allCurrentYearData, lastYearsData, location);
     const isNull = locationData.Value === "" ? true : false;
+    const currentYear = allCurrentYearData[0].Time;
+    const previousYear = lastYearsData[0].Time;
+
     return {
-      cardData: { locationData, ukData, londonData, ranking, change, isNull },
+      cardData: {
+        locationData,
+        ukData,
+        londonData,
+        ranking,
+        change,
+        isNull,
+        currentYear,
+        previousYear,
+      },
       indicator: dataset.indicator,
       metadata: dataset.metadata,
     };

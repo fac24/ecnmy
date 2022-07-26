@@ -30,23 +30,6 @@ export default async function dataVisualiser(indicatorCsv, indicator, location, 
         console.log(chartId);
     }
 
-    //     curl --request PUT \
-    //     --url https://api.datawrapper.de/v3/charts/<ID>/data \
-    //     --header 'Authorization: Bearer <YOUR_TOKEN_HERE>' \
-    //     --header 'content-type: text/csv' \
-    //     --data "country,code,literacy-rate
-    //   Angola,AGO,71.2
-    //   Burundi,BDI,85.5
-    //   Benin,BEN,38.4
-    //   Burkina Faso,BFA,37.7
-    //   ...
-    //   Tanzania,TZA,80.4
-    //   Uganda,UGA,73.8
-    //   South Africa,ZAF,94.6
-    //   Zambia,ZMB,85.1
-    //   Zimbabwe,ZWE,86.9"
-
-
     //populates chart with data
     if (chartType !== 'd3-maps-choropleth') {
         const putResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {

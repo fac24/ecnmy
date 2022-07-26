@@ -36,7 +36,7 @@ export default async function wellbeing(route, tooltip) {
     release_date: releaseDate,
     title: metadataAPI.title,
     source: "ONS",
-    sampleSize: "150000 (UK wide)",
+    sampleSize: "150,000 (UK wide)",
     tooltips: tooltip,
   };
 

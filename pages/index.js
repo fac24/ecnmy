@@ -1,5 +1,8 @@
 import SelectForm from "../components/SelectForm";
-import { selectAllByServerSideParam } from "../database/model";
+import {
+  selectAllByServerSideParam,
+  selectTopicsWithLinkedData,
+} from "../database/model";
 
 // Turns the rows got from the db into options for the react-select component
 import selectOptions from "../utils/selectOptions";
@@ -7,7 +10,7 @@ import selectOptions from "../utils/selectOptions";
 export async function getServerSideProps() {
   // Get locations and topics
   const locations = await selectAllByServerSideParam("locations");
-  const topics = await selectAllByServerSideParam("topics");
+  const topics = await selectTopicsWithLinkedData();
 
   // Turn these locations and topics into options for react-select
   const locationOptions = selectOptions(locations);
