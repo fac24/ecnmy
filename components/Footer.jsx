@@ -11,11 +11,8 @@ export default function Footer() {
             Data Sources
           </p>
           <div className="flex flex-wrap justify-around items-center gap-2">
-            <Link href="https://www.ons.gov.uk/"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <a className="w-44">
+            <Link href="https://www.ons.gov.uk/">
+              <a className="w-44" rel="noreferrer" target="_blank">
                 <Image
                   src={onsLogo}
                   alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
