@@ -1,7 +1,7 @@
-import useDatawrapper from "../../../components/hooks/useDatawrapper";
 import { selectDatasetByIndicator } from "../../../database/model";
 import cardDataArranger from "../../../utils/cardDataArranger";
-import Loading from "../../../components/Loading";
+import dataVisualiser from "../../../utils/dataVisualiser";
+import React from "react";
 
 export async function getServerSideProps({ params }) {
   if (params.location !== "favicon.ico") {
@@ -106,7 +106,7 @@ export default function Indicator({
           ></iframe>
         </div>
       </div>
-      <div className="w-1/2 h-[1352px] m-auto border  p-6">
+      <div className="w-1/2 h-[135px] m-auto border  p-6">
         <iframe
           aria-label={`A table for ${indicator} in ${location}`}
           id="datawrapper-chart-0jKkG"
