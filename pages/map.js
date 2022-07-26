@@ -45,6 +45,7 @@ export async function getServerSideProps(params) {
 }
 
 export default function Map({
+    datasets,
     test,
     topics,
     topicOptions,
@@ -53,8 +54,8 @@ export default function Map({
     filteredAllIndicators
 }) {
     const [topic, setTopic] = useState({ value: "All", label: "All" });
-    console.log(topic)
     const [indicatorOptions, setIndicatorOptions] = useState(selectOptions(filteredAllIndicators))
+    const [mapId, mapLoading, setMapData] = useChoropleth()
     useEffect(() => {
 
         const filteredIndicators = topic.value === "All" ? filteredAllIndicators : allIndicatorOptions.filter((option) => option.name === topic.value);
