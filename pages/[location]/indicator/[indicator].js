@@ -80,6 +80,7 @@ export default function Indicator({
     <main>
       <div className="flex items-center flex-wrap justify-around">
         <div className="p-5 rounded-xl  max-w-[400px]">
+          <h1 className="blue capitalize font-bold"></h1>
           <h1 className="blue capitalize font-bold">
             {locationDataset.indicator} in {location}
           </h1>
@@ -87,15 +88,20 @@ export default function Indicator({
             <span className="font-medium">Name of study:</span> {metadata.title}
           </h2>
           <h3>
-            <span className="font-medium">Last updated: </span>
+            <span className="font-medium">Last updated:</span>{" "}
             {metadata.release_date.substring(0, 4)}
           </h3>
           <p>
-            <span className="font-medium">Description:</span>
+            <span className="font-medium">Description:</span>{" "}
             {metadata.description}
           </p>
         </div>
-        <div className=" h-[400px] w-full min-w-[310px] max-w-[610px] p-5 ">
+      </div>
+
+      <div className="w-full h-[400px] w-full min-w-[310px] max-w-[610px] p-5">
+        {lineChartLoading === true ? (
+          <Loading />
+        ) : (
           <iframe
             aria-label={`A chart showing the change in ${indicator} in ${location}`}
             id="datawrapper-chart-0jKkG"
@@ -104,17 +110,21 @@ export default function Indicator({
             scrolling="no"
             frameBorder="0"
           ></iframe>
-        </div>
+        )}
       </div>
-      <div className="w-1/2 h-[1352px] m-auto border  p-6">
-        <iframe
-          aria-label={`A table for ${indicator} in ${location}`}
-          id="datawrapper-chart-0jKkG"
-          src={`https://datawrapper.dwcdn.net/${tableId}/1/`}
-          className="w-full min-w-full h-full"
-          scrolling="no"
-          frameBorder="0"
-        ></iframe>
+      <div className="w-1/2 h-[1350px] m-auto border p-6">
+        {tableLoading === true ? (
+          <Loading />
+        ) : (
+          <iframe
+            aria-label={`A table for ${indicator} in ${location}`}
+            id="datawrapper-chart-0jKkG"
+            src={`https://datawrapper.dwcdn.net/${tableId}/1/`}
+            className="w-full min-w-full h-full"
+            scrolling="no"
+            frameBorder="0"
+          ></iframe>
+        )}
       </div>
     </main>
   );
