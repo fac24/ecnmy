@@ -16,8 +16,10 @@ export default function Footer() {
               rel="noreferrer"
               target="_blank"
               className="w-44"
+              data-test-id="ons-logo"
             >
               <Image
+                id="ons-logo"
                 src={onsLogo}
                 alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
                 // width={120}
@@ -77,6 +79,7 @@ export default function Footer() {
           target="_blank"
           className="max-w-[200px]"
           rel="noreferrer"
+          data-test-id="ecmy-logo"
         >
           <Image
             src={ecnmyLogo}
