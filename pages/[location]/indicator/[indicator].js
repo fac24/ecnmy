@@ -80,19 +80,19 @@ export default function Indicator({
     <main>
       <div className="flex items-center flex-wrap justify-around">
         <div className="p-5 rounded-xl  max-w-[400px]">
-          <h1 className="blue capitalize font-bold"></h1>
           <h1 className="blue capitalize font-bold">
             {locationDataset.indicator} in {location}
           </h1>
           <h2>
-            <span className="font-medium">Name of study:</span> {metadata.title}
+            <span className="font-semibold">Name of study:</span>{" "}
+            {metadata.title}
           </h2>
           <h3>
-            <span className="font-medium">Last updated:</span>{" "}
+            <span className="font-semibold">Last updated:</span>{" "}
             {metadata.release_date.substring(0, 4)}
           </h3>
           <p>
-            <span className="font-medium">Description:</span>{" "}
+            <span className="font-semibold">Description:</span>{" "}
             {metadata.description}
           </p>
         </div>
@@ -112,7 +112,7 @@ export default function Indicator({
           ></iframe>
         )}
       </div>
-      <div className="w-1/2 h-[1350px] m-auto border p-6">
+      <div className="w-1/2 h-[1352px] m-auto border p-6">
         {tableLoading === true ? (
           <Loading />
         ) : (
