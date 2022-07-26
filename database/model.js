@@ -10,7 +10,7 @@ const selectAllByServerSideParam = async (table) => {
 
 const selectTopicsWithLinkedData = async () => {
   const SELECT_TOPICS = /*SQL*/ `
-  SELECT topics.name
+  SELECT topics.name, datasets.indicator
   FROM topics
     INNER JOIN datasets_topics ON topics.id = datasets_topics.topic_id
     INNER JOIN datasets ON datasets_topics.dataset_id = datasets.id
