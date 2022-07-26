@@ -1,28 +1,20 @@
-// import Choropleth from "../components/Choropleth";
 import dataVisualiser from "../utils/dataVisualiser";
-import { selectAllByServerSideParam } from "../database/model";
-import { selectDataByTopicName } from "../database/model";
+import { selectTopicsWithLinkedData } from "../database/model";
 import StyleSelect from "../components/StyleSelect";
 import selectOptions from "../utils/selectOptions";
+import { useState } from "react";
 
 export async function getServerSideProps(params) {
     if (params.location !== "favicon.ico") {
-        // const defaultTopic = defaultValue
-        //     ? {
-        //         label: defaultValue?.topic,
-        //         value: defaultValue?.topic,
-        //     }
-        //     : null;
 
-        const topics = await selectAllByServerSideParam("topics");
+        const topics = await selectTopicsWithLinkedData();
+        console.log("topics");
+        console.log(topics);
         const topicOptions = [
             { value: "All", label: "All" },
             ...selectOptions(topics),
         ];
-        const wellbeingData = await selectDataByTopicName("Wellbeing");
-        const x = wellbeingData[0].indicator;
-        console.log("indicator");
-        console.log(x);
+
         const location = params.location;
         //Geography,Values
         //
@@ -31,10 +23,12 @@ export async function getServerSideProps(params) {
         const test = await dataVisualiser(indicatorCsv, indicator, location, 'd3-maps-choropleth');
         console.log("test");
         console.log(test);
+
         return {
             props: {
                 test,
                 topicOptions,
+                topics
             },
         };
     } else {
@@ -44,12 +38,17 @@ export async function getServerSideProps(params) {
     }
 }
 
-
 export default function Map({
     test,
+    topics,
     topicOptions,
     invisible
 }) {
+
+    let [topic, setTopic] = useState(null);
+
+
+
     return (
         <>
             <form
@@ -61,6 +60,7 @@ export default function Map({
                     <StyleSelect
                         options={topicOptions}
                         id="topic"
+                        onChange={() => { setTopic(value); loadIndicators(topic) }}
                     />
                 </div>
 
