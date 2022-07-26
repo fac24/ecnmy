@@ -26,22 +26,21 @@ export default function Footer() {
         </div>
       </footer>
       <div className="flex items-center gap-3 flex-wrap md:flex-nowrap  justify-around my-10 max-w-[75%] mx-auto">
-        {/* this should link to the website */}
-        <a
-          href="https://www.ecnmy.org/"
-          target="_blank"
-          className="max-w-[200px]"
-          rel="noreferrer"
-        >
-          <Image
-            src={ecnmyLogo}
-            alt="logo for the charity 'Economy'"
-            // width=""
-            // height=""
-            className=""
-          />
-        </a>
-
+        <Link href="https://www.ecnmy.org/">
+          <a
+            target="_blank"
+            className="max-w-[200px]"
+            rel="noreferrer"
+          >
+            <Image
+              src={ecnmyLogo}
+              alt="logo for the charity 'Economy'"
+              // width=""
+              // height=""
+              className=""
+            />
+          </a>
+        </Link>
         <p className=" text-xs">
           <i>Economy</i>’s vision is of a flourishing and sustainable society in
           which there is diverse and inclusive public conversation about the
