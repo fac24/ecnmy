@@ -8,9 +8,20 @@ const selectAllByServerSideParam = async (table) => {
   return await db.query(SELECT_ALL).then((resolve) => resolve.rows);
 };
 
+const selectTopicsWithLinkedData = async () => {
+  const SELECT_TOPICS = /*SQL*/ `
+  SELECT topics.name, datasets.indicator
+  FROM topics
+    INNER JOIN datasets_topics ON topics.id = datasets_topics.topic_id
+    INNER JOIN datasets ON datasets_topics.dataset_id = datasets.id
+    WHERE datasets.data IS NOT NULL
+  `;
+  return await db.query(SELECT_TOPICS).then((resolve) => resolve.rows);
+};
+
 const selectDataByTopicName = async (topic) => {
   const SELECT_DATA = /*SQL*/ `
-    SELECT datasets.data, datasets.indicator
+    SELECT datasets.data, datasets.indicator, datasets.metadata
     FROM datasets
       JOIN datasets_topics ON datasets.id = datasets_topics.dataset_id
       JOIN topics ON topics.id = datasets_topics.topic_id
@@ -32,6 +43,7 @@ const selectDatasetByIndicator = async (indicator) => {
 
 module.exports = {
   selectAllByServerSideParam,
+  selectTopicsWithLinkedData,
   selectDataByTopicName,
   selectDatasetByIndicator,
 };

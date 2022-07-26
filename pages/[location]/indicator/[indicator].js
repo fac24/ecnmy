@@ -1,7 +1,7 @@
+import useDatawrapper from "../../../components/hooks/useDatawrapper";
 import { selectDatasetByIndicator } from "../../../database/model";
 import cardDataArranger from "../../../utils/cardDataArranger";
-import dataVisualiser from "../../../utils/dataVisualiser";
-import React from "react";
+import Loading from "../../../components/Loading";
 
 export async function getServerSideProps({ params }) {
   if (params.location !== "favicon.ico") {
