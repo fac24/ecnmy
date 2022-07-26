@@ -13,7 +13,7 @@ export default function Card({ dataset, location }) {
   const cardData = dataset.cardData;
   if (cardData.isNull) return null;
   return (
-    <div className="flex flex-col w-1/4 justify-evenly min-w-fit">
+    <div className="flex flex-col w-1/4 justify-evenly max-w-[350px]">
       <div className="bg-ecnmy-white mb-1 flex flex-col rounded-t-lg">
         <ToolTip
           indicator={dataset.indicator}
