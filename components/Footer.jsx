@@ -11,62 +11,20 @@ export default function Footer() {
             Data Sources
           </p>
           <div className="flex flex-wrap justify-around items-center gap-2">
-            <a
-              href="https://www.ons.gov.uk/"
+            <Link href="https://www.ons.gov.uk/"
               rel="noreferrer"
               target="_blank"
-              className="w-44"
             >
-              <Image
-                src={onsLogo}
-                alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
-                // width={120}
-                // height={40}
-                className=""
-              />
-            </a>
-            <a
-              href="https://www.ons.gov.uk/"
-              rel="noreferrer"
-              target="_blank"
-              className="w-44"
-            >
-              <Image
-                src={onsLogo}
-                alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
-                // width={120}
-                // height={40}
-                className=""
-              />
-            </a>
-            <a
-              href="https://www.ons.gov.uk/"
-              rel="noreferrer"
-              target="_blank"
-              className="w-44"
-            >
-              <Image
-                src={onsLogo}
-                alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
-                // width={120}
-                // height={40}
-                className=""
-              />
-            </a>
-            <a
-              href="https://www.ons.gov.uk/"
-              target="_blank"
-              rel="noreferrer"
-              className="w-44"
-            >
-              <Image
-                src={onsLogo}
-                alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
-                // width={120}
-                // height={40}
-                className=""
-              />
-            </a>
+              <a className="w-44">
+                <Image
+                  src={onsLogo}
+                  alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
+                  // width={120}
+                  // height={40}
+                  className=""
+                />
+              </a>
+            </Link>
           </div>
         </div>
       </footer>
