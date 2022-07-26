@@ -1,13 +1,16 @@
 import dataVisualiser from "../utils/dataVisualiser";
-import { selectTopicsWithLinkedData } from "../database/model";
+import { selectDistinctTopicsWithData, selectTopicsWithLinkedData } from "../database/model";
 import StyleSelect from "../components/StyleSelect";
+import Select from "react-select"
 import selectOptions from "../utils/selectOptions";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export async function getServerSideProps(params) {
     if (params.location !== "favicon.ico") {
-
-        const topics = await selectTopicsWithLinkedData();
+        const datasets = await selectAllByServerSideParam("datasets")
+        const topics = await selectDistinctTopicsWithData();
+        const allIndicatorOptions = await selectTopicsWithLinkedData();
+        const filteredAllIndicators = allIndicatorOptions.filter((optionA, index, arr) => arr.findIndex(optionB => (optionB.indicator === optionA.indicator)) === index)
         console.log("topics");
         console.log(topics);
         const topicOptions = [
@@ -19,16 +22,19 @@ export async function getServerSideProps(params) {
         //Geography,Values
         //
         let indicator = "x"
-        let indicatorCsv = "x,y"
+        let indicatorCsv = `Location,`
         const test = await dataVisualiser(indicatorCsv, indicator, location, 'd3-maps-choropleth');
         console.log("test");
         console.log(test);
 
         return {
             props: {
+                datasets,
                 test,
                 topicOptions,
-                topics
+                topics,
+                allIndicatorOptions,
+                filteredAllIndicators
             },
         };
     } else {
@@ -42,25 +48,36 @@ export default function Map({
     test,
     topics,
     topicOptions,
-    invisible
+    invisible,
+    allIndicatorOptions,
+    filteredAllIndicators
 }) {
+    const [topic, setTopic] = useState({ value: "All", label: "All" });
+    console.log(topic)
+    const [indicatorOptions, setIndicatorOptions] = useState(selectOptions(filteredAllIndicators))
+    useEffect(() => {
 
-    let [topic, setTopic] = useState(null);
-
-
+        const filteredIndicators = topic.value === "All" ? filteredAllIndicators : allIndicatorOptions.filter((option) => option.name === topic.value);
+        const newOptions = selectOptions(filteredIndicators, "indicator")
+        setIndicatorOptions(newOptions)
+    }, [topic, allIndicatorOptions, filteredAllIndicators])
 
     return (
         <>
             <form
-                action="/api/location-topic-form"
                 method="POST"
                 className="grid place-items-center gap-3 p-10"
             >
                 <div className="flex justify-around w-full max-w-xl m-auto flex-wrap">
                     <StyleSelect
+                        defaultValue={topic}
                         options={topicOptions}
                         id="topic"
-                        onChange={() => { setTopic(value); loadIndicators(topic) }}
+                        setTopic={setTopic}
+                    />
+                    <StyleSelect
+                        options={indicatorOptions}
+                        id="indicator"
                     />
                 </div>
 

@@ -1,6 +1,6 @@
 import Select from "react-select";
 
-export default function StyleSelect({ options, defaultValue, id, invisible }) {
+export default function StyleSelect({ options, defaultValue, id, invisible, setTopic = null }) {
   return (
     <fieldset className="min-w-[250px]">
       <label
@@ -14,6 +14,7 @@ export default function StyleSelect({ options, defaultValue, id, invisible }) {
         name={id}
         options={options}
         defaultValue={defaultValue}
+        onChange={setTopic}
       />
     </fieldset>
   );
