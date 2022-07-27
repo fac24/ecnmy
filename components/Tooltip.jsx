@@ -33,7 +33,7 @@ export default function ToolTip({ indicator, tooltips }) {
       <span
         className={`${
           hover
-            ? "absolute inset-x-0 bottom-12 bg-ecnmy-charcoal rounded-lg text-ecnmy-white text-sm capitalize"
+            ? "absolute inset-x-0 bottom-12 bg-ecnmy-grape rounded-t-lg text-ecnmy-white p-2 text-sm capitalize"
             : "hidden"
         }`}
       >
