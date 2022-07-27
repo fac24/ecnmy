@@ -8,17 +8,17 @@ export default function SelectForm({
 }) {
   const defaultLocation = defaultValue
     ? {
-      label: defaultValue?.location,
-      value: defaultValue?.location,
-    }
+        label: defaultValue?.location,
+        value: defaultValue?.location,
+      }
     : null;
   const defaultTopic = defaultValue
     ? {
-      label: defaultValue?.topic,
-      value: defaultValue?.topic,
-    }
+        label: defaultValue?.topic,
+        value: defaultValue?.topic,
+      }
     : null;
-  console.log(defaultLocation);
+
   return (
     <form
       action="/api/location-topic-form"
