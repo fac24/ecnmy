@@ -11,12 +11,10 @@ const howDesc = {
     page: "Indicator",
     how: <ul><li>On this page, you can find important information about the study used.</li><li>A line chart shows the change in that indicator for the selected location. Below, a table contains the same information in a different form.</li><li>By selecting &apos;Get the data&apos;, you can download the data specific to the chart and table.</li></ul>
   },
-  /*
   "/map": {
-    page: "Choropleth",
-    how: <ul><li></li></ul>
+    page: "Map",
+    how: <ul><li>On this page, you can see enter a topic and indicator relevant to that topic.</li><li>Hover over a borough to see the name of the borough with the value for the indicator in that borough.</li><li>Click on a borough to see more information about that indicator in the selected borough.</li></ul>
   }
-  */
 };
 
 export default function How({ params }) {

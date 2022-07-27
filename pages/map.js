@@ -1,34 +1,45 @@
 import dataVisualiser from "../utils/dataVisualiser";
-import { selectTopicsWithLinkedData } from "../database/model";
+import { selectDistinctTopicsWithData, selectTopicsWithLinkedData, selectAllByServerSideParam } from "../database/model";
 import StyleSelect from "../components/StyleSelect";
+import Select from "react-select"
 import selectOptions from "../utils/selectOptions";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useChoropleth from "../components/hooks/useChoropleth";
+import Loading from "../components/Loading"
+import { useRouter } from "next/router";
+
+const sortByYearReturningOneYear = (arr, slice) => {
+    return arr
+        .sort((a, b) => {
+            return (
+                parseInt(b.Time.substring(0, 4)) - parseInt(a.Time.substring(0, 4))
+            );
+        })
+        .slice(slice[0], slice[1]);
+};
 
 export async function getServerSideProps(params) {
     if (params.location !== "favicon.ico") {
 
-        const topics = await selectTopicsWithLinkedData();
-        console.log("topics");
-        console.log(topics);
+        //topics and indicators for dropdown menu
+        const datasets = await selectAllByServerSideParam("datasets")
+        const topics = await selectDistinctTopicsWithData();
+        const allIndicatorOptions = await selectTopicsWithLinkedData();
+        const filteredAllIndicators = allIndicatorOptions.filter((optionA, index, arr) => arr.findIndex(optionB => (optionB.indicator === optionA.indicator)) === index)
         const topicOptions = [
             { value: "All", label: "All" },
             ...selectOptions(topics),
         ];
 
         const location = params.location;
-        //Geography,Values
-        //
-        let indicator = "x"
-        let indicatorCsv = "x,y"
-        const test = await dataVisualiser(indicatorCsv, indicator, location, 'd3-maps-choropleth');
-        console.log("test");
-        console.log(test);
 
         return {
             props: {
-                test,
+                datasets,
                 topicOptions,
-                topics
+                topics,
+                allIndicatorOptions,
+                filteredAllIndicators
             },
         };
     } else {
@@ -39,43 +50,74 @@ export async function getServerSideProps(params) {
 }
 
 export default function Map({
-    test,
+    datasets,
     topics,
     topicOptions,
-    invisible
+    invisible,
+    allIndicatorOptions,
+    filteredAllIndicators
 }) {
+    const router = useRouter()
+    const [topic, setTopic] = useState({ value: "All", label: "All" });
+    const [indicator, setIndicator] = useState(null)
+    const [indicatorOptions, setIndicatorOptions] = useState(selectOptions(filteredAllIndicators))
+    const [mapId, mapLoading, setMapData, setMapIndicator] = useChoropleth()
 
-    let [topic, setTopic] = useState(null);
+    //filters viewable indicators on the basis of chosen topic
+    useEffect(() => {
+        const filteredIndicators = topic.value === "All" ? filteredAllIndicators : allIndicatorOptions.filter((option) => option.name === topic.value);
+        const newOptions = selectOptions(filteredIndicators, "indicator")
+        setIndicatorOptions(newOptions)
+    }, [topic, allIndicatorOptions, filteredAllIndicators])
 
+    //once indicator is chosen, this filters all boroughs (but not London and UK) to give data for the most recent year in the dataset
+    useEffect(() => {
+        if (indicator !== null) {
+            const indicatorToFilter = indicator.value;
+            const [filteredDatasets] = datasets.filter((dataset) => dataset.indicator === indicatorToFilter);
+            const data = filteredDatasets.data.data.filter((dataset) => dataset.Geography !== "London").filter((dataset) => dataset.Geography !== "United Kingdom");
+            setMapData(sortByYearReturningOneYear(data, [0, 33]));
+            setMapIndicator(indicatorToFilter)
+        }
+    }, [datasets, setMapData, indicator, setMapIndicator])
 
+    //clicking a borough on the map redirects the user to the relevant indicator page
+    useEffect(() => {
+        function regionClick(event) {
+            if (indicator !== null) {
+                router.push(`/${event.data.Location}/indicator/${indicator.value}`)
+            }
+        }
+        datawrapper.on('region.click', regionClick);
+
+        return () => datawrapper.off('region.click', regionClick)
+    }, [indicator, router])
 
     return (
         <>
             <form
-                action="/api/location-topic-form"
                 method="POST"
                 className="grid place-items-center gap-3 p-10"
             >
                 <div className="flex justify-around w-full max-w-xl m-auto flex-wrap">
                     <StyleSelect
+                        defaultValue={topic}
                         options={topicOptions}
                         id="topic"
-                        onChange={() => { setTopic(value); loadIndicators(topic) }}
+                        setChange={setTopic}
+                    />
+                    <StyleSelect
+                        options={indicatorOptions}
+                        id="indicator"
+                        setChange={setIndicator}
                     />
                 </div>
-
-                <button
-                    className=" text-lg px-4 py-2 bg-ecnmy-mint rounded-xl hover:font-bold"
-                    type="submit"
-                >
-                    GO!
-                </button>
             </form>
 
-            <div>Map Page</div>
-            <div className={`w-1/2 h-[1600px] m-auto`}>
-                <iframe id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${test}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
-                </iframe>
+            <div className={`w-1/2 h-[800px] m-auto`}>
+                {mapLoading ? <Loading /> :
+                    <iframe title={`choropleth showing ${indicator?.value} in London`} src={`https://datawrapper.dwcdn.net/${mapId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
+                    </iframe>}
             </div>
         </>
     );

@@ -76,6 +76,9 @@ export default function Indicator({
     "tables"
   );
 
+  let x = tableCsv.length * 3.9;
+  let tableHieght = x.toString() + "px";
+
   return (
     <main>
       <div className="flex items-center flex-wrap justify-around">
@@ -110,11 +113,12 @@ export default function Indicator({
         </div>
       </div>
 
-      <div className="w-1/2 h-[1352px] m-auto border p-6">
+      <div className="w-1/2 h-full m-auto border p-6">
         {tableLoading === true ? (
           <Loading />
         ) : (
           <iframe
+            style={{ height: tableHieght }}
             aria-label={`A table for ${indicator} in ${location}`}
             id="datawrapper-chart-0jKkG"
             src={`https://datawrapper.dwcdn.net/${tableId}/1/`}

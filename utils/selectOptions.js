@@ -1,8 +1,8 @@
-export default function selectOptions(rows) {
+export default function selectOptions(rows, key = "name") {
   return rows.map((item) => {
     return {
-      value: item.name,
-      label: item.name,
+      value: item[key],
+      label: item[key],
     };
   });
 }

@@ -3,9 +3,9 @@ export default async function dataVisualiser(indicatorCsv, indicator, location, 
     if (chartType === 'd3-lines') {
         title = `A chart showing change in ${indicator} in ${location}`
     } else if (chartType === 'tables') {
-        title = `A table of ${indicator} in ${location}`
+        title = `Table: ${indicator} in ${location}`
     } else if (chartType === 'd3-maps-choropleth') {
-        title = `Choropleth`
+        title = indicator === null ? " " : `A choropleth showing ${indicator} in London`
     }
 
     //initialises empty chart
@@ -21,48 +21,31 @@ export default async function dataVisualiser(indicatorCsv, indicator, location, 
             'lastEditStep': 3
         })
     })
+
+    //chartId needed for URL that will ultimately be put into the iframe on the page
     const postJson = await postResponse.json();
     const chartId = postJson.id;
 
-    if (chartType === 'd3-maps-choropleth') {
-        // const list = await fetch('https://api.datawrapper.de/plugin/basemaps')
-        // console.log(list);
-        console.log(chartId);
-    }
-
     //populates chart with data
-    if (chartType !== 'd3-maps-choropleth') {
-        const putResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': process.env.API_KEY,
-                'content-type': 'text/csv'
-            },
+    const putResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': process.env.API_KEY,
+            'content-type': 'text/csv'
+        },
 
-            body: indicatorCsv
-        })
-    } else {
-        const putResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': process.env.API_KEY,
-                'content-type': 'text/csv'
-            },
+        body: indicatorCsv
+    })
 
-            body: `borough,value
-            Barnet,4
-            Bexley,3
-            Merton,7
-            `
-        });
-
-        const patchResponse = fetch(`https://api.datawrapper.de/v3/charts/${chartId}`, {
+    //for choropleth, sets basemap and adds tooltip
+    if (chartType === 'd3-maps-choropleth') {
+        const patchResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': process.env.API_KEY,
                 'content-type': 'application/json'
             },
-            // body: '{\n    "metadata": {\n      "axes": {\n          "keys": "code",\n          "values": "literacy-rate"\n      },\n      "visualize": {\n          "basemap": "africa",\n          "map-key-attr": "ADM0_A3"\n      }\n    }\n  }',
+
             body: JSON.stringify({
                 'metadata': {
                     'axes': {
@@ -77,42 +60,22 @@ export default async function dataVisualiser(indicatorCsv, indicator, location, 
             })
         });
 
-
-        const furtherPatch = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}`, {
+        const addTooltip = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': process.env.API_KEY,
                 'content-type': 'application/json'
             },
-            // body: '{\n    "metadata": {\n      "describe": {\n          "source-name": "Our World in Data",\n          "source-url": "https://ourworldindata.org/literacy",\n          "intro": "Share of the population older than 14 years that is able to read and write, in African countries, 2015"\n      }\n    }\n}',
-            body: JSON.stringify({
-                'metadata': {
-                    'describe': {
-                        'source-name': 'Our World in Data',
-                        'source-url': 'https://ourworldindata.org/literacy',
-                        'intro': 'Share of the population older than 14 years that is able to read and write, in African countries, 2015'
-                    }
-                }
-            })
-        });
 
-        const yetAnotherPatch = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}`, {
-            method: 'PATCH',
-            headers: {
-                'Authorization': process.env.API_KEY,
-                'content-type': 'application/json'
-            },
-            // body: '{\n    "metadata": {\n      "visualize": {\n        "tooltip": {\n          "body": "{{ literacy_rate }}% of adults in this country can read.",\n          "title": "{{ country }}",\n          "fields": {\n            "code": "code",\n            "country": "country",\n            "literacy_rate": "literacy-rate"\n          }\n        }\n      }\n    }\n}',
             body: JSON.stringify({
                 'metadata': {
                     'visualize': {
                         'tooltip': {
-                            'body': '{{ value }}%',
-                            'title': '{{ borough }}',
+                            'body': `Indicator value: {{ indicator }}`,
+                            'title': 'Borough: {{ location }}',
                             'fields': {
-                                'code': 'code',
-                                'borough': 'borough',
-                                'value': 'value'
+                                'location': 'location',
+                                'indicator': indicator,
                             }
                         }
                     }
@@ -121,14 +84,6 @@ export default async function dataVisualiser(indicatorCsv, indicator, location, 
         });
     }
 
-    //
-    // const getResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
-    //     method: 'GET',
-    //     headers: {
-    //         'Authorization': process.env.API_KEY,
-    //     }
-    // })
-
     //publishes chart online with chartId in the URL
     const publishResponse = await fetch(`https://api.datawrapper.de/charts/${chartId}/publish`, {
         method: 'POST',
@@ -136,16 +91,6 @@ export default async function dataVisualiser(indicatorCsv, indicator, location, 
             'Authorization': process.env.API_KEY,
         }
     });
-
-    const getPublish = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}`, {
-        headers: {
-            'Authorization': process.env.API_KEY,
-            'content-type': 'application/json'
-        }
-    });
-    const publishJSON = await getPublish.json();
-    console.log("getPublish");
-    console.log(publishJSON.metadata.publish['embed-codes']);
 
     return chartId;
 }

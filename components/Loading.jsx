@@ -1,12 +1,17 @@
 import Image from "next/image";
-export default function loading() {
+import LoadingGif from "../public/images/loading-11.gif";
+export default function Loading() {
   return (
     <>
-      <p className="text-xl animate-pulse">Loading ......</p>
-
-      <h3 className="animate-spin origin-center text-center text-[200px]">
-        &#9881;{" "}
-      </h3>
+      <div className="grid place-items-center">
+        <Image
+          src={LoadingGif}
+          alt="Loading spinner"
+          width={300}
+          height={200}
+        />
+        <p className="text-xl animate-pulse">Loading ......</p>
+      </div>
     </>
   );
 }

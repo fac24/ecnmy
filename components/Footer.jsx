@@ -28,7 +28,12 @@ export default function Footer() {
       </footer>
       <div className="flex items-center gap-3 flex-wrap md:flex-nowrap  justify-around my-10 max-w-[75%] mx-auto">
         <Link href="https://www.ecnmy.org/">
-          <a target="_blank" className="max-w-[200px]" rel="noreferrer">
+          <a
+            target="_blank"
+            className="max-w-[200px]"
+            rel="noreferrer"
+            data-test-id="ecmy-logo"
+          >
             <Image
               src={ecnmyLogo}
               alt="logo for the charity 'Economy'"
