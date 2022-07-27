@@ -86,7 +86,7 @@ export default function Footer() {
             />
           </a>
         </Link>
-        <h3 className=" text-xs">
+        <h2 className=" text-xs">
           <p className="font-semibold">
             The Local cost of living dashboard is run by Economy:
           </p>
@@ -95,7 +95,7 @@ export default function Footer() {
           economy, and economics is a tool everybody can use to make confident
           personal choices; articulate their needs, values and priorities; take
           action to shape the economy and participate in democracy.
-        </h3>
+        </h2>
       </div>
     </>
   );
