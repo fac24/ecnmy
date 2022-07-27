@@ -94,6 +94,11 @@ export default function Indicator({
             <span className="font-semibold">Last updated:</span>{" "}
             {metadata.release_date.substring(0, 4)}
           </h3>
+          {metadata.sampleSize ?
+            <h3><span className="font-semibold">Sample size:</span>{" "}
+              {metadata.sampleSize}
+            </h3>
+            : null}
           <p>
             <span className="font-semibold">Description:</span>{" "}
             {metadata.description}
