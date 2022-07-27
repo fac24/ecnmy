@@ -7,21 +7,21 @@ export default function HealthWarning({ metadata, year }) {
     setWarning(!warning);
   }
   return (
-    <div className="relative overflow-visible text-ecnmy-white m-3 p-2 text-right rounded-lg w-10/12 text-lg font-bold">
+    <div className="relative overflow-visible text-ecnmy-white m-3 p-2 text-right rounded-lg  text-lg font-bold">
       <span
         tabIndex={0}
         onMouseEnter={handleWarning}
         onMouseLeave={handleWarning}
         onFocus={handleWarning}
         onBlur={handleWarning}
-        className="text-ecnmy-mustard bg-ecnmy-black rounded-full p-0.5"
+        className="text-ecnmy-mustard bg-ecnmy-black rounded-full p-0.5 cursor-pointer"
       >
         &#9888;
       </span>
       <span
         className={`${
           warning
-            ? "absolute inset-x-0 top-12 bg-ecnmy-charcoal rounded-lg text-ecnmy-white text-sm text-left p-2 z-[1]"
+            ? "absolute inset-x-0 top-12 bg-ecnmy-charcoal rounded-lg text-ecnmy-white text-sm text-left p-2 z-[1] min-w-[150px] w-full"
             : "hidden"
         }`}
       >
