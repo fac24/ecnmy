@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="flex flex-col items-start gap-4">
           <p className="text-[16px] py-1 font-semibold text-center w-full">
             Data Sources: This dashboard represents local data available from a
-            range of sources, current sources are:
+            range of sources, current sources are
           </p>
           <div className="flex flex-wrap justify-around items-center gap-2">
             <Link href="https://www.ons.gov.uk/">
