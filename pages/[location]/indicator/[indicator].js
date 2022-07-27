@@ -104,7 +104,7 @@ export default function Indicator({
             <Loading />
           ) : (
             <iframe
-              aria-label={`A chart showing the change in ${indicator} in ${location}`}
+              title={`A chart showing the change in ${indicator} in ${location}`}
               id="datawrapper-chart-0jKkG"
               src={`https://datawrapper.dwcdn.net/${lineChartId}/1/`}
               className="w-full min-w-full h-full"
@@ -121,7 +121,7 @@ export default function Indicator({
         ) : (
           <iframe
             style={{ height: tableHieght }}
-            aria-label={`A table for ${indicator} in ${location}`}
+            title={`A table for ${indicator} in ${location}`}
             id="datawrapper-chart-0jKkG"
             src={`https://datawrapper.dwcdn.net/${tableId}/1/`}
             className="w-full min-w-full h-full"
