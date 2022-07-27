@@ -96,22 +96,22 @@ export default function Indicator({
             {metadata.description}
           </p>
         </div>
+        <div className="w-full h-[400px] w-full min-w-[310px] max-w-[610px] p-5">
+          {lineChartLoading === true ? (
+            <Loading />
+          ) : (
+            <iframe
+              aria-label={`A chart showing the change in ${indicator} in ${location}`}
+              id="datawrapper-chart-0jKkG"
+              src={`https://datawrapper.dwcdn.net/${lineChartId}/1/`}
+              className="w-full min-w-full h-full"
+              scrolling="no"
+              frameBorder="0"
+            ></iframe>
+          )}
+        </div>
       </div>
 
-      <div className="w-full h-[400px] w-full min-w-[310px] max-w-[610px] p-5">
-        {lineChartLoading === true ? (
-          <Loading />
-        ) : (
-          <iframe
-            aria-label={`A chart showing the change in ${indicator} in ${location}`}
-            id="datawrapper-chart-0jKkG"
-            src={`https://datawrapper.dwcdn.net/${lineChartId}/1/`}
-            className="w-full min-w-full h-full"
-            scrolling="no"
-            frameBorder="0"
-          ></iframe>
-        )}
-      </div>
       <div className="w-1/2 h-[1352px] m-auto border p-6">
         {tableLoading === true ? (
           <Loading />
