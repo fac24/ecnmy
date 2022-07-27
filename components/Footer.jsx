@@ -31,6 +31,7 @@ export default function Footer() {
             target="_blank"
             className="max-w-[200px]"
             rel="noreferrer"
+            data-test-id="ecmy-logo"
           >
             <Image
               src={ecnmyLogo}
