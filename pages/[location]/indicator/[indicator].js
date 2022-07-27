@@ -2,6 +2,7 @@ import useDatawrapper from "../../../components/hooks/useDatawrapper";
 import { selectDatasetByIndicator } from "../../../database/model";
 import cardDataArranger from "../../../utils/cardDataArranger";
 import Loading from "../../../components/Loading";
+import Link from "next/link";
 
 export async function getServerSideProps({ params }) {
   if (params.location !== "favicon.ico") {
@@ -88,7 +89,7 @@ export default function Indicator({
           </h1>
           <h2>
             <span className="font-semibold">Name of study:</span>{" "}
-            {metadata.title}
+            <Link href={metadata.datasetLink}><a className="underline text-blue-600 hover:text-ecnmy-navy visited:text-ecnmy-grape">{metadata.title}</a></Link>
           </h2>
           <h3>
             <span className="font-semibold">Last updated:</span>{" "}
