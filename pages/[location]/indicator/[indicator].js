@@ -76,6 +76,7 @@ export default function Indicator({
     "tables"
   );
 
+
   return (
     <main>
       <div className="flex items-center flex-wrap justify-around">
