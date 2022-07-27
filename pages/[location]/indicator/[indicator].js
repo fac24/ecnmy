@@ -113,7 +113,7 @@ export default function Indicator({
         </div>
       </div>
 
-      <div className="w-1/2 h-full m-auto border p-6">
+      <div className="max-w-xl h-full m-auto border p-6">
         {tableLoading === true ? (
           <Loading />
         ) : (
