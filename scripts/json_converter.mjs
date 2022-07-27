@@ -77,12 +77,12 @@ const jsonConverter = async () => {
   )}'),\n
   `;
   sqlOutput += `
-    ('female life expectancy', '${JSON.stringify(
+    ('life expectancy (female)', '${JSON.stringify(
     femaleLifeExpectancy
   )}', '${JSON.stringify(femaleLifeExpectancyMetadata)}'),\n
   `;
   sqlOutput += `
-    ('male life expectancy', '${JSON.stringify(
+    ('life expectancy (male)', '${JSON.stringify(
     maleLifeExpectancy
   )}', '${JSON.stringify(maleLifeExpectancyMetadata)}'),\n
   `;

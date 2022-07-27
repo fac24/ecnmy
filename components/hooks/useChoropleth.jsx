@@ -5,6 +5,7 @@ export default function useDatawrapper() {
     const [loading, setLoading] = useState(null);
     const [dataset, setDataset] = useState(null);
     const [indicator, setIndicator] = useState(null);
+    const [metadata, setMetadata] = useState(null);
     const [csv, setCsv] = useState(null)
 
     useEffect(() => {
@@ -19,23 +20,23 @@ export default function useDatawrapper() {
 
 
     useEffect(() => {
-        if (csv !== null) {
-            setLoading(true);
-            fetch("/api/datawrapper-proxy", {
-                method: "POST",
-                body: JSON.stringify({
-                    csv,
-                    indicator,
-                    location: null,
-                    chartType: "d3-maps-choropleth",
-                }),
-            })
-                .then((resolve) => resolve.json())
-                .then((resolve) => {
-                    setChartId(resolve.chartId);
-                    setLoading(false);
-                });
-        }
+
+        setLoading(true);
+        fetch("/api/datawrapper-proxy", {
+            method: "POST",
+            body: JSON.stringify({
+                csv,
+                indicator,
+                location: null,
+                chartType: "d3-maps-choropleth",
+            }),
+        })
+            .then((resolve) => resolve.json())
+            .then((resolve) => {
+                setChartId(resolve.chartId);
+                setLoading(false);
+            });
+
     }, [csv, indicator]);
 
     return [chartId, loading, setDataset, setIndicator];

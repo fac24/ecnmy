@@ -10,11 +10,12 @@ const selectAllByServerSideParam = async (table) => {
 
 const selectDistinctTopicsWithData = async () => {
   const SELECT_TOPICS = /*SQL*/ `
-  SELECT DISTINCT topics.name
+  SELECT DISTINCT (topics.name)
   FROM topics
     INNER JOIN datasets_topics ON topics.id = datasets_topics.topic_id
     INNER JOIN datasets ON datasets_topics.dataset_id = datasets.id
     WHERE datasets.data IS NOT NULL
+    ORDER BY topics.name
   `;
   return await db.query(SELECT_TOPICS).then((resolve) => resolve.rows);
 };
@@ -26,6 +27,7 @@ const selectTopicsWithLinkedData = async () => {
     INNER JOIN datasets_topics ON topics.id = datasets_topics.topic_id
     INNER JOIN datasets ON datasets_topics.dataset_id = datasets.id
     WHERE datasets.data IS NOT NULL
+    ORDER BY datasets.indicator
   `;
   return await db.query(SELECT_TOPICS).then((resolve) => resolve.rows);
 };

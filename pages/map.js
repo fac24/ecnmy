@@ -20,6 +20,8 @@ const sortByYearReturningOneYear = (arr, slice) => {
 
 export async function getServerSideProps(params) {
     if (params.location !== "favicon.ico") {
+
+        //topics and indicators for dropdown menu
         const datasets = await selectAllByServerSideParam("datasets")
         const topics = await selectDistinctTopicsWithData();
         const allIndicatorOptions = await selectTopicsWithLinkedData();
@@ -30,8 +32,6 @@ export async function getServerSideProps(params) {
         ];
 
         const location = params.location;
-        //Geography,Values
-        //
 
         return {
             props: {
@@ -63,32 +63,35 @@ export default function Map({
     const [indicatorOptions, setIndicatorOptions] = useState(selectOptions(filteredAllIndicators))
     const [mapId, mapLoading, setMapData, setMapIndicator] = useChoropleth()
 
+    //filters viewable indicators on the basis of chosen topic
     useEffect(() => {
         const filteredIndicators = topic.value === "All" ? filteredAllIndicators : allIndicatorOptions.filter((option) => option.name === topic.value);
         const newOptions = selectOptions(filteredIndicators, "indicator")
         setIndicatorOptions(newOptions)
     }, [topic, allIndicatorOptions, filteredAllIndicators])
 
-
+    //once indicator is chosen, this filters all boroughs (but not London and UK) to give data for the most recent year in the dataset
     useEffect(() => {
         if (indicator !== null) {
             const indicatorToFilter = indicator.value;
             const [filteredDatasets] = datasets.filter((dataset) => dataset.indicator === indicatorToFilter);
-            console.log(filteredDatasets);
             const data = filteredDatasets.data.data.filter((dataset) => dataset.Geography !== "London").filter((dataset) => dataset.Geography !== "United Kingdom");
             setMapData(sortByYearReturningOneYear(data, [0, 33]));
             setMapIndicator(indicatorToFilter)
         }
     }, [datasets, setMapData, indicator, setMapIndicator])
 
+    //clicking a borough on the map redirects the user to the relevant indicator page
     useEffect(() => {
-
-        datawrapper.on('region.click', (event) => {
+        function regionClick(event) {
             if (indicator !== null) {
                 router.push(`/${event.data.Location}/indicator/${indicator.value}`)
             }
-        });
-    })
+        }
+        datawrapper.on('region.click', regionClick);
+
+        return () => datawrapper.off('region.click', regionClick)
+    }, [indicator, router])
 
     return (
         <>
@@ -109,18 +112,11 @@ export default function Map({
                         setChange={setIndicator}
                     />
                 </div>
-
-                <button
-                    className=" text-lg px-4 py-2 bg-ecnmy-mint rounded-xl hover:font-bold"
-                    type="submit"
-                >
-                    GO!
-                </button>
             </form>
 
-            <div className={`w-1/2 h-[1600px] m-auto`}>
-                {mapLoading === null ? null : mapLoading ? <Loading /> :
-                    <iframe id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${mapId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
+            <div className={`w-1/2 h-[800px] m-auto`}>
+                {mapLoading ? <Loading /> :
+                    <iframe title={`choropleth showing ${indicator?.value} in London`} src={`https://datawrapper.dwcdn.net/${mapId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
                     </iframe>}
             </div>
         </>

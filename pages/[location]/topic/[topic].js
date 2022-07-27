@@ -1,6 +1,7 @@
 import {
   selectAllByServerSideParam,
   selectDataByTopicName,
+  selectDistinctTopicsWithData,
 } from "../../../database/model";
 import Card from "../../../components/Card";
 import cardDataArranger from "../../../utils/cardDataArranger";
@@ -29,7 +30,7 @@ export async function getServerSideProps({ params }) {
     // indicator: the name of the dataset indicator
     // Get locations and topics
     const locations = await selectAllByServerSideParam("locations");
-    const topics = await selectAllByServerSideParam("topics");
+    const topics = await selectDistinctTopicsWithData();
 
     // Turn these locations and topics into options for react-select
     const locationOptions = selectOptions(locations);
