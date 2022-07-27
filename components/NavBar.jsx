@@ -8,7 +8,7 @@ export default function NavBar() {
   const active =
     router.route === "/" ? "home" : router.route === "/map" ? "map" : null;
   return (
-    <nav className="grid place-items-center text-ecnmy-breeze m-auto px-4 h-16 text-2xl bg-ecnmy-skyblue font-bold">
+    <nav className="grid place-items-center text-ecnmy-black m-auto px-4 h-16 text-2xl bg-ecnmy-mint font-bold">
       <section className="flex space-x-6">
         <div className="flex items-center">
           <Link href="/">
