@@ -36,7 +36,7 @@ export async function getServerSideProps({ params }) {
     boroughDataSortedByYearTable.map((datum) => {
       tableCsv += `${datum["Time"]},${datum["Value"]}\n`;
     });
-    console.log(chartCsv);
+
     return {
       props: {
         location,
