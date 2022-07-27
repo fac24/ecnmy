@@ -11,11 +11,6 @@ export default function NavBar() {
     <nav className="grid place-items-center text-ecnmy-breeze  w-screen m-auto px-4 h-16 text-2xl bg-ecnmy-skyblue font-bold">
       <section className="flex space-x-6">
         <div className="flex items-center">
-          <img
-            className="h-6 "
-            src="https://www.seekpng.com/png/detail/339-3392184_home-icons-blue-home-icon-blue-png.png"
-            alt=""
-          />
           <Link href="/">
             <a
               className={
@@ -29,11 +24,6 @@ export default function NavBar() {
           </Link>
         </div>
         <div className="flex items-center">
-          <img
-            className="h-6 "
-            src="https://toppng.com/uploads/preview/map-command-comments-map-icon-11562897555gcydeuswdx.png"
-            alt=""
-          />
           <Link href="/map">
             <a
               className={
@@ -47,11 +37,6 @@ export default function NavBar() {
           </Link>
         </div>
         <div className="flex items-center">
-          <img
-            className="h-6 "
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNAijsICRNxRmav5ikr__4kc9hbtTEsP-yuw&usqp=CAU"
-            alt=""
-          />
           <How />
         </div>
       </section>

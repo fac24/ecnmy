@@ -11,85 +11,37 @@ export default function Footer() {
             Data Sources
           </p>
           <div className="flex flex-wrap justify-around items-center gap-2">
-            <a
-              href="https://www.ons.gov.uk/"
-              rel="noreferrer"
-              target="_blank"
-              className="w-44"
-              data-test-id="ons-logo"
-            >
-              <Image
-                id="ons-logo"
-                src={onsLogo}
-                alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
-                // width={120}
-                // height={40}
-                className=""
-              />
-            </a>
-            <a
-              href="https://www.ons.gov.uk/"
-              rel="noreferrer"
-              target="_blank"
-              className="w-44"
-            >
-              <Image
-                src={onsLogo}
-                alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
-                // width={120}
-                // height={40}
-                className=""
-              />
-            </a>
-            <a
-              href="https://www.ons.gov.uk/"
-              rel="noreferrer"
-              target="_blank"
-              className="w-44"
-            >
-              <Image
-                src={onsLogo}
-                alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
-                // width={120}
-                // height={40}
-                className=""
-              />
-            </a>
-            <a
-              href="https://www.ons.gov.uk/"
-              target="_blank"
-              rel="noreferrer"
-              className="w-44"
-            >
-              <Image
-                src={onsLogo}
-                alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
-                // width={120}
-                // height={40}
-                className=""
-              />
-            </a>
+            <Link href="https://www.ons.gov.uk/">
+              <a className="w-44" rel="noreferrer" target="_blank">
+                <Image
+                  src={onsLogo}
+                  alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
+                  // width={120}
+                  // height={40}
+                  className=""
+                />
+              </a>
+            </Link>
           </div>
         </div>
       </footer>
       <div className="flex items-center gap-3 flex-wrap md:flex-nowrap  justify-around my-10 max-w-[75%] mx-auto">
-        {/* this should link to the website */}
-        <a
-          href="https://www.ecnmy.org/"
-          target="_blank"
-          className="max-w-[200px]"
-          rel="noreferrer"
-          data-test-id="ecmy-logo"
-        >
-          <Image
-            src={ecnmyLogo}
-            alt="logo for the charity 'Economy'"
-            // width=""
-            // height=""
-            className=""
-          />
-        </a>
-
+        <Link href="https://www.ecnmy.org/">
+          <a
+            target="_blank"
+            className="max-w-[200px]"
+            rel="noreferrer"
+            data-test-id="ecmy-logo"
+          >
+            <Image
+              src={ecnmyLogo}
+              alt="logo for the charity 'Economy'"
+              // width=""
+              // height=""
+              className=""
+            />
+          </a>
+        </Link>
         <p className=" text-xs">
           <i>Economy</i>’s vision is of a flourishing and sustainable society in
           which there is diverse and inclusive public conversation about the

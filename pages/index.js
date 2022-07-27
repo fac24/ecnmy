@@ -24,7 +24,7 @@ export async function getServerSideProps() {
 export default function Home({ topicOptions, locationOptions }) {
   return (
     <main>
-      <h1 className=" text-[clamp(2.5rem,1.1666666666666667rem+6.666666666666667vw,4rem)] text-center font-bold text-ecnmy-charcoal mt-6 mb-4">
+      <h1 className=" text-[50px] text-center font-bold text-ecnmy-charcoal mt-6 mb-4">
         ECNMY DATA DASHBOARD
       </h1>
       <SelectForm
@@ -34,3 +34,6 @@ export default function Home({ topicOptions, locationOptions }) {
     </main>
   );
 }
+
+
+// old text size clamp(2.5rem,1.1666666666666667rem+6.666666666666667vw,4rem)

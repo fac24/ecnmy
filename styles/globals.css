@@ -2,11 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Sofia";
+  src: url('../public/fonts/SofiaProRegular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sofia";
+  src: url('../public/fonts/SofiaProBold.otf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sofia";
+  src: url('../public/fonts/SofiaProLight.otf');
+  font-weight: lighter;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sofia";
+  src: url('../public/fonts/sofiapro-semibold.otf');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url(../public/fonts/Lato-Regular.ttf);
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url(../public/fonts/Lato-Italic.ttf);
+  font-weight: normal;
+  font-style: italic;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: "Sofia", "Lato", BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
@@ -29,7 +71,7 @@ a {
   width: 70%;
   margin: 0 auto;
   max-height: 70vh;
-  margin-top: calc(100vh - 85vh - 20px); 
+  margin-top: calc(100vh - 85vh - 20px);
 }
 
 .close-icon {

@@ -33,10 +33,6 @@ describe("Homepage tests", () => {
   // Navbar
   it(" navgate using navBar ", () => {
     cy.visit("/").get("nav a:nth-of-type(1)").should("have.attr", "href", "/");
-
-    // cy.visit("/")
-    //   .get("nav a:nth-of-type(2)")
-    //   .should("have.attr", "href", "/map");
   });
 
   // How for homepage
@@ -44,6 +40,9 @@ describe("Homepage tests", () => {
 });
 
 describe("Topic page tests", () => {
+  cy.get(".css-1s2u09g-control").eq(1).click()
+    cy.get([id="react-select-3-placeholder"])
+  });
   // How for topic page
   // Navbar
   // Footer

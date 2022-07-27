@@ -8,15 +8,15 @@ export default function SelectForm({
 }) {
   const defaultLocation = defaultValue
     ? {
-        label: defaultValue?.location,
-        value: defaultValue?.location,
-      }
+      label: defaultValue?.location,
+      value: defaultValue?.location,
+    }
     : null;
   const defaultTopic = defaultValue
     ? {
-        label: defaultValue?.topic,
-        value: defaultValue?.topic,
-      }
+      label: defaultValue?.topic,
+      value: defaultValue?.topic,
+    }
     : null;
   console.log(defaultLocation);
   return (
@@ -44,7 +44,7 @@ export default function SelectForm({
         className=" text-lg px-4 py-2 bg-ecnmy-mint rounded-xl hover:font-bold"
         type="submit"
       >
-        GO!
+        GO
       </button>
     </form>
   );

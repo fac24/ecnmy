@@ -78,27 +78,41 @@ export default function Indicator({
 
   return (
     <main>
-      <h1 className="blue capitalize">
-        {locationDataset.indicator} in {location}
-      </h1>
-      <h2>Name of study: {metadata.title}</h2>
-      <h3>Last updated: {metadata.release_date.substring(0, 4)}</h3>
-      <p>Description: {metadata.description}</p>
-      <div className="w-full h-[400px]">
-        {lineChartLoading === true ? (
-          <Loading />
-        ) : (
-          <iframe
-            aria-label={`A chart showing the change in ${indicator} in ${location}`}
-            id="datawrapper-chart-0jKkG"
-            src={`https://datawrapper.dwcdn.net/${lineChartId}/1/`}
-            className="w-full min-w-full h-full"
-            scrolling="no"
-            frameBorder="0"
-          ></iframe>
-        )}
+      <div className="flex items-center flex-wrap justify-around">
+        <div className="p-5 rounded-xl  max-w-[400px]">
+          <h1 className="blue capitalize font-bold">
+            {locationDataset.indicator} in {location}
+          </h1>
+          <h2>
+            <span className="font-semibold">Name of study:</span>{" "}
+            {metadata.title}
+          </h2>
+          <h3>
+            <span className="font-semibold">Last updated:</span>{" "}
+            {metadata.release_date.substring(0, 4)}
+          </h3>
+          <p>
+            <span className="font-semibold">Description:</span>{" "}
+            {metadata.description}
+          </p>
+        </div>
+        <div className="w-full h-[400px] w-full min-w-[310px] max-w-[610px] p-5">
+          {lineChartLoading === true ? (
+            <Loading />
+          ) : (
+            <iframe
+              aria-label={`A chart showing the change in ${indicator} in ${location}`}
+              id="datawrapper-chart-0jKkG"
+              src={`https://datawrapper.dwcdn.net/${lineChartId}/1/`}
+              className="w-full min-w-full h-full"
+              scrolling="no"
+              frameBorder="0"
+            ></iframe>
+          )}
+        </div>
       </div>
-      <div className={`w-1/2 h-[1600px] m-auto`}>
+
+      <div className="w-1/2 h-[1352px] m-auto border p-6">
         {tableLoading === true ? (
           <Loading />
         ) : (
