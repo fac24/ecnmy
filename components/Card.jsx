@@ -56,7 +56,7 @@ export default function Card({ dataset, location }) {
             </a>
           </Link>
 
-          <p className="flex items-center">
+          <div className="flex items-center">
             {dataset.metadata.source}
             {", "}
             {cardData.currentYear}
@@ -66,7 +66,7 @@ export default function Card({ dataset, location }) {
                 year={cardData.currentYear}
               />
             </div>
-          </p>
+          </div>
         </section>
       </div>
     </div>

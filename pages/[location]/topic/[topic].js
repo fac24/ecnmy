@@ -71,7 +71,7 @@ export default function Cards({
         defaultValue={{ location, topic }}
         invisible={true}
       />
- <div className="flex justify-evenly gap-3 flex-wrap  p-4 pb-6">
+      <div className="flex justify-evenly gap-3 flex-wrap  p-4 pb-6">
         {cards}
       </div>
     </div>
