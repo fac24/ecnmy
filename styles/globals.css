@@ -87,3 +87,7 @@ a {
   text-align: center;
   font-size: 20px;
 }
+
+.capitalize-first::first-letter {
+  text-transform: uppercase;
+}

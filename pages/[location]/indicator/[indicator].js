@@ -94,10 +94,8 @@ export default function Indicator({
             <span className="font-semibold">Last updated:</span>{" "}
             {metadata.release_date.substring(0, 4)}
           </h3>
-          <p>
-            <span className="font-semibold">Description:</span>{" "}
-            {metadata.description}
-          </p>
+          <span className="font-semibold">Description:</span>{" "}
+          {metadata.description}
         </div>
         <div className="w-full h-[400px] w-full min-w-[310px] max-w-[610px] p-5">
           {lineChartLoading === true ? (
