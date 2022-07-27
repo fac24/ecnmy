@@ -1,37 +1,42 @@
 import { useState, useEffect } from "react";
 
-export default function useDatawrapper(indicator, location, chartType) {
+export default function useDatawrapper() {
     const [chartId, setChartId] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [dataset, setDataset] = useState(null)
+    const [loading, setLoading] = useState(null);
+    const [dataset, setDataset] = useState(null);
+    const [indicator, setIndicator] = useState(null);
     const [csv, setCsv] = useState(null)
 
     useEffect(() => {
         let newCsv = `Location,${indicator}\n`;
-        dataset.forEach((datum) => {
-            newCsv += `${datum["Geography"]},${datum["Value"]}\n`
-        })
-        setCsv(newCsv)
+        if (dataset !== null) {
+            dataset.forEach((datum) => {
+                newCsv += `${datum["Geography"]},${datum["Value"]}\n`
+            })
+            setCsv(newCsv)
+        }
     }, [dataset, indicator])
 
 
     useEffect(() => {
-        setLoading(true);
-        fetch("/api/datawrapper-proxy", {
-            method: "POST",
-            body: JSON.stringify({
-                csv,
-                indicator,
-                location,
-                chartType,
-            }),
-        })
-            .then((resolve) => resolve.json())
-            .then((resolve) => {
-                setChartId(resolve.chartId);
-                setLoading(false);
-            });
-    }, [csv, indicator, location, chartType]);
+        if (csv !== null) {
+            setLoading(true);
+            fetch("/api/datawrapper-proxy", {
+                method: "POST",
+                body: JSON.stringify({
+                    csv,
+                    indicator,
+                    location: null,
+                    chartType: "d3-maps-choropleth",
+                }),
+            })
+                .then((resolve) => resolve.json())
+                .then((resolve) => {
+                    setChartId(resolve.chartId);
+                    setLoading(false);
+                });
+        }
+    }, [csv, indicator]);
 
-    return [chartId, loading, setDataset];
+    return [chartId, loading, setDataset, setIndicator];
 }

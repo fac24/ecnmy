@@ -12,6 +12,7 @@ export default function Layout({ children }) {
           content="a website to help journalists access economic data related to the cost of living crisis in London"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://static.dwcdn.net/js/events.js" defer />
       </Head>
 
       <main className="bg-ecnmy-breeze">

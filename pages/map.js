@@ -1,9 +1,22 @@
 import dataVisualiser from "../utils/dataVisualiser";
-import { selectDistinctTopicsWithData, selectTopicsWithLinkedData } from "../database/model";
+import { selectDistinctTopicsWithData, selectTopicsWithLinkedData, selectAllByServerSideParam } from "../database/model";
 import StyleSelect from "../components/StyleSelect";
 import Select from "react-select"
 import selectOptions from "../utils/selectOptions";
 import { useState, useEffect } from "react";
+import useChoropleth from "../components/hooks/useChoropleth";
+import Loading from "../components/Loading"
+import { useRouter } from "next/router";
+
+const sortByYearReturningOneYear = (arr, slice) => {
+    return arr
+        .sort((a, b) => {
+            return (
+                parseInt(b.Time.substring(0, 4)) - parseInt(a.Time.substring(0, 4))
+            );
+        })
+        .slice(slice[0], slice[1]);
+};
 
 export async function getServerSideProps(params) {
     if (params.location !== "favicon.ico") {
@@ -11,8 +24,6 @@ export async function getServerSideProps(params) {
         const topics = await selectDistinctTopicsWithData();
         const allIndicatorOptions = await selectTopicsWithLinkedData();
         const filteredAllIndicators = allIndicatorOptions.filter((optionA, index, arr) => arr.findIndex(optionB => (optionB.indicator === optionA.indicator)) === index)
-        console.log("topics");
-        console.log(topics);
         const topicOptions = [
             { value: "All", label: "All" },
             ...selectOptions(topics),
@@ -21,16 +32,10 @@ export async function getServerSideProps(params) {
         const location = params.location;
         //Geography,Values
         //
-        let indicator = "x"
-        let indicatorCsv = `Location,`
-        const test = await dataVisualiser(indicatorCsv, indicator, location, 'd3-maps-choropleth');
-        console.log("test");
-        console.log(test);
 
         return {
             props: {
                 datasets,
-                test,
                 topicOptions,
                 topics,
                 allIndicatorOptions,
@@ -46,22 +51,44 @@ export async function getServerSideProps(params) {
 
 export default function Map({
     datasets,
-    test,
     topics,
     topicOptions,
     invisible,
     allIndicatorOptions,
     filteredAllIndicators
 }) {
+    const router = useRouter()
     const [topic, setTopic] = useState({ value: "All", label: "All" });
+    const [indicator, setIndicator] = useState(null)
     const [indicatorOptions, setIndicatorOptions] = useState(selectOptions(filteredAllIndicators))
-    const [mapId, mapLoading, setMapData] = useChoropleth()
-    useEffect(() => {
+    const [mapId, mapLoading, setMapData, setMapIndicator] = useChoropleth()
 
+    useEffect(() => {
         const filteredIndicators = topic.value === "All" ? filteredAllIndicators : allIndicatorOptions.filter((option) => option.name === topic.value);
         const newOptions = selectOptions(filteredIndicators, "indicator")
         setIndicatorOptions(newOptions)
     }, [topic, allIndicatorOptions, filteredAllIndicators])
+
+
+    useEffect(() => {
+        if (indicator !== null) {
+            const indicatorToFilter = indicator.value;
+            const [filteredDatasets] = datasets.filter((dataset) => dataset.indicator === indicatorToFilter);
+            console.log(filteredDatasets);
+            const data = filteredDatasets.data.data.filter((dataset) => dataset.Geography !== "London").filter((dataset) => dataset.Geography !== "United Kingdom");
+            setMapData(sortByYearReturningOneYear(data, [0, 33]));
+            setMapIndicator(indicatorToFilter)
+        }
+    }, [datasets, setMapData, indicator, setMapIndicator])
+
+    useEffect(() => {
+
+        datawrapper.on('region.click', (event) => {
+            if (indicator !== null) {
+                router.push(`/${event.data.Location}/indicator/${indicator.value}`)
+            }
+        });
+    })
 
     return (
         <>
@@ -74,11 +101,12 @@ export default function Map({
                         defaultValue={topic}
                         options={topicOptions}
                         id="topic"
-                        setTopic={setTopic}
+                        setChange={setTopic}
                     />
                     <StyleSelect
                         options={indicatorOptions}
                         id="indicator"
+                        setChange={setIndicator}
                     />
                 </div>
 
@@ -90,10 +118,10 @@ export default function Map({
                 </button>
             </form>
 
-            <div>Map Page</div>
             <div className={`w-1/2 h-[1600px] m-auto`}>
-                <iframe id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${test}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
-                </iframe>
+                {mapLoading === null ? null : mapLoading ? <Loading /> :
+                    <iframe id="datawrapper-chart-0jKkG" src={`https://datawrapper.dwcdn.net/${mapId}/1/`} className="w-full min-w-full h-full" scrolling="no" frameBorder="0">
+                    </iframe>}
             </div>
         </>
     );

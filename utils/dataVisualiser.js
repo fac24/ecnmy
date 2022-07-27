@@ -5,7 +5,7 @@ export default async function dataVisualiser(indicatorCsv, indicator, location, 
     } else if (chartType === 'tables') {
         title = `A table of ${indicator} in ${location}`
     } else if (chartType === 'd3-maps-choropleth') {
-        title = `Choropleth`
+        title = `A choropleth of ${indicator} in London`
     }
 
     //initialises empty chart
@@ -24,39 +24,19 @@ export default async function dataVisualiser(indicatorCsv, indicator, location, 
     const postJson = await postResponse.json();
     const chartId = postJson.id;
 
-    if (chartType === 'd3-maps-choropleth') {
-        // const list = await fetch('https://api.datawrapper.de/plugin/basemaps')
-        // console.log(list);
-        console.log(chartId);
-    }
-
     //populates chart with data
-    if (chartType !== 'd3-maps-choropleth') {
-        const putResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': process.env.API_KEY,
-                'content-type': 'text/csv'
-            },
+    const putResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': process.env.API_KEY,
+            'content-type': 'text/csv'
+        },
 
-            body: indicatorCsv
-        })
-    } else {
-        const putResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': process.env.API_KEY,
-                'content-type': 'text/csv'
-            },
+        body: indicatorCsv
+    })
 
-            body: `borough,value
-            Barnet,4
-            Bexley,3
-            Merton,7
-            `
-        });
-
-        const patchResponse = fetch(`https://api.datawrapper.de/v3/charts/${chartId}`, {
+    if (chartType === 'd3-maps-choropleth') {
+        const patchResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': process.env.API_KEY,
@@ -90,7 +70,7 @@ export default async function dataVisualiser(indicatorCsv, indicator, location, 
                     'describe': {
                         'source-name': 'Our World in Data',
                         'source-url': 'https://ourworldindata.org/literacy',
-                        'intro': 'Share of the population older than 14 years that is able to read and write, in African countries, 2015'
+                        'intro': `A choropleth `
                     }
                 }
             })
@@ -107,12 +87,11 @@ export default async function dataVisualiser(indicatorCsv, indicator, location, 
                 'metadata': {
                     'visualize': {
                         'tooltip': {
-                            'body': '{{ value }}%',
-                            'title': '{{ borough }}',
+                            'body': `Indicator value: {{ indicator }}`,
+                            'title': 'Borough: {{ location }}',
                             'fields': {
-                                'code': 'code',
-                                'borough': 'borough',
-                                'value': 'value'
+                                'location': 'location',
+                                'indicator': indicator
                             }
                         }
                     }
@@ -120,7 +99,6 @@ export default async function dataVisualiser(indicatorCsv, indicator, location, 
             })
         });
     }
-
     //
     // const getResponse = await fetch(`https://api.datawrapper.de/v3/charts/${chartId}/data`, {
     //     method: 'GET',
@@ -144,8 +122,6 @@ export default async function dataVisualiser(indicatorCsv, indicator, location, 
         }
     });
     const publishJSON = await getPublish.json();
-    console.log("getPublish");
-    console.log(publishJSON.metadata.publish['embed-codes']);
 
     return chartId;
 }
