@@ -5,7 +5,7 @@ import onsLogo from "../public/images/ons-logo-white-background.png";
 export default function Footer() {
   return (
     <>
-      <footer className="text-xs pt-6 pb-8 px-11 flex justify-around items-center flex-wrap border-solid border-ecnmy-charcoal border-t-2 border-b-2 mt-10">
+      <footer className="text-xs pt-6 pb-8 px-11 flex justify-around items-center flex-wrap border-solid border-ecnmy-charcoal border-t-2 border-b-2">
         <p className="text-[16px] py-1 font-medium max-w-xs mb-2 flex flex-wrap">
           <span className="font-bold">Data Sources:</span>
           This dashboard represents local data available from a range of
