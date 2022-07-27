@@ -25,7 +25,7 @@ export default function Home({ topicOptions, locationOptions }) {
   return (
     <main>
       <h1 className=" text-[50px] text-center font-bold text-ecnmy-charcoal mt-6 mb-4">
-        ECNMY DATA DASHBOARD
+        LOCAL COST OF LIVING DATA DASHBOARD
       </h1>
       <SelectForm
         topicOptions={topicOptions}
