@@ -43,14 +43,14 @@ export default function Footer() {
             />
           </a>
         </Link>
-        <p className=" text-xs">
+        <h3 className=" text-xs">
           <p>The Local cost of living dashboard is run by Economy:</p>
           <i>Economy</i>’s vision is of a flourishing and sustainable society in
           which there is diverse and inclusive public conversation about the
           economy, and economics is a tool everybody can use to make confident
           personal choices; articulate their needs, values and priorities; take
           action to shape the economy and participate in democracy.
-        </p>
+        </h3>
       </div>
     </>
   );
