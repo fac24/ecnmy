@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Loading from "../public/images/loading-11.gif";
-export default function Loading() {
+export default function loading() {
   return (
     <>
       <div className="grid place-items-center">
