@@ -5,11 +5,6 @@ import HealthWarning from "./HealthWarning";
 import React from "react";
 
 export default function Card({ dataset, location }) {
-  const [hover, setHover] = useState(false);
-
-  function handleHover() {
-    setHover(!hover);
-  }
 
   const cardData = dataset.cardData;
   if (cardData.isNull) return null;
@@ -60,12 +55,6 @@ export default function Card({ dataset, location }) {
             {dataset.metadata.source}
             {", "}
             {cardData.currentYear}
-            <div>
-              <HealthWarning
-                metadata={dataset.metadata}
-                year={cardData.currentYear}
-              />
-            </div>
           </div>
         </section>
       </div>
