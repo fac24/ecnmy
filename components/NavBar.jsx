@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import How from "./How";
-import Image from "next/image";
 
 export default function NavBar() {
   const router = useRouter();
@@ -27,6 +26,7 @@ export default function NavBar() {
         <div className="flex items-center">
           <Link href="/map">
             <a
+              data-test-id="mapNavLink"
               className={
                 active === "map"
                   ? "text-ecnmy-charcoal underline"

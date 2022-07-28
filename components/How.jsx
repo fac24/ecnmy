@@ -102,7 +102,7 @@ export default function How({ params }) {
         <div className="greyed-bg fixed w-full h-screen top-0 left-0 z-[1]">
           <div className="box relative h-auto rounded p-5 overflow-auto bg-ecnmy-white border">
             <span
-              className="close-icon bg-ecnmy-charcoal border"
+              className="close-icon bg-ecnmy-charcoal border text-white"
               onClick={togglePopup}
             >
               x
