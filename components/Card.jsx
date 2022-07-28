@@ -44,7 +44,7 @@ export default function Card({ dataset, location }) {
 
         <section className="flex justify-between items-center">
           <Link href={`/${location}/indicator/${dataset.indicator}`}>
-            <a className="underline font-semibold hover:font-bold text-ecnmy-pumpkin">
+            <a className="underline font-semibold hover:font-bold text-[#AD1414]">
               More Info
             </a>
           </Link>
