@@ -7,7 +7,7 @@ export default function Footer() {
     <>
       <footer className="text-xs pt-6 pb-8 px-11 flex justify-around items-center flex-wrap border-solid border-ecnmy-charcoal border-t-2 border-b-2">
         <p className="text-[16px] py-1 font-medium max-w-xs mb-2 flex flex-wrap">
-          <span className="font-bold">Data Sources:</span>
+          <span className="font-bold">Data Sources</span>
           This dashboard represents local data available from a range of
           sources, current sources are
         </p>
@@ -25,47 +25,7 @@ export default function Footer() {
               </a>
             </Link>
 
-            <div className="flex flex-wrap justify-around items-center gap-2">
-              <Link href="https://www.ons.gov.uk/">
-                <a className="w-44" rel="noreferrer" target="_blank">
-                  <Image
-                    src={onsLogo}
-                    alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
-                    // width={120}
-                    // height={40}
-                    className=""
-                  />
-                </a>
-              </Link>
-            </div>
-
-            <div className="flex flex-wrap justify-around items-center gap-2">
-              <Link href="https://www.ons.gov.uk/">
-                <a className="w-44" rel="noreferrer" target="_blank">
-                  <Image
-                    src={onsLogo}
-                    alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
-                    // width={120}
-                    // height={40}
-                    className=""
-                  />
-                </a>
-              </Link>
-            </div>
-
-            <div className="flex flex-wrap justify-around items-center gap-2">
-              <Link href="https://www.ons.gov.uk/">
-                <a className="w-44" rel="noreferrer" target="_blank">
-                  <Image
-                    src={onsLogo}
-                    alt="logo for the ONS with English and Welsh text (Office of National Statistics; Swyddfa Ystadegau Gwladol)"
-                    // width={120}
-                    // height={40}
-                    className=""
-                  />
-                </a>
-              </Link>
-            </div>
+          
           </div>
         </div>
       </footer>
@@ -88,7 +48,7 @@ export default function Footer() {
         </Link>
         <h2 className=" text-xs">
           <p className="font-semibold">
-            The Local cost of living dashboard is run by Economy:
+            The Local cost of living dashboard is run by Economy
           </p>
           <i>Economy</i>’s vision is of a flourishing and sustainable society in
           which there is diverse and inclusive public conversation about the
