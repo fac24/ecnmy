@@ -42,7 +42,6 @@ describe("Homepage tests", () => {
       .get("nav a:nth-of-type(1)")
       .should("have.attr", "href", "/");
   });
-
   it(" navbar Map link should have the right attribute on all pagds ", () => {
     cy.visit("/")
       .get('[data-test-id="mapNavLink"]')
@@ -57,7 +56,6 @@ describe("Homepage tests", () => {
       .get('[data-test-id="mapNavLink"]')
       .should("have.attr", "href", "/map");
   });
-
   // How for homepage
   // Dropdowns take to topics
 });
