@@ -8,7 +8,8 @@ export default function Footer() {
       <footer className="text-xs pt-6 pb-8 px-11 flex justify-around items-center flex-wrap border-solid border-ecnmy-charcoal border-t-2 border-b-2 mt-10">
         <div className="flex flex-col items-start gap-4">
           <p className="text-[16px] py-1 font-semibold text-center w-full">
-            Data Sources
+            Data Sources: This dashboard represents local data available from a
+            range of sources, current sources are
           </p>
           <div className="flex flex-wrap justify-around items-center gap-2">
             <Link href="https://www.ons.gov.uk/">
@@ -42,13 +43,14 @@ export default function Footer() {
             />
           </a>
         </Link>
-        <p className=" text-xs">
+        <h3 className=" text-xs">
+          <p>The Local cost of living dashboard is run by Economy:</p>
           <i>Economy</i>’s vision is of a flourishing and sustainable society in
           which there is diverse and inclusive public conversation about the
           economy, and economics is a tool everybody can use to make confident
           personal choices; articulate their needs, values and priorities; take
           action to shape the economy and participate in democracy.
-        </p>
+        </h3>
       </div>
     </>
   );

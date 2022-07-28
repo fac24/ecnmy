@@ -9,14 +9,14 @@ export default function ToolTip({ indicator, tooltips }) {
   }
 
   return (
-    <h2 className=" relative overflow-visible bg-ecnmy-grape self-center text-ecnmy-white m-3 p-2 text-center flex justify-between rounded-lg w-10/12 text-lg font-bold">
+    <h2 className=" relative overflow-visible bg-ecnmy-grape self-center text-ecnmy-white m-3 p-2 text-center flex justify-between rounded-lg w-10/12 text-lg font-medium">
       <span></span>
       <span
         onMouseEnter={handleHover}
         onMouseLeave={handleHover}
         onFocus={handleHover}
         onBlur={handleHover}
-        className="capitalize"
+        className="capitalize-first"
       >
         {indicator}
       </span>
@@ -33,7 +33,7 @@ export default function ToolTip({ indicator, tooltips }) {
       <span
         className={`${
           hover
-            ? "absolute inset-x-0 bottom-12 bg-ecnmy-charcoal rounded-lg text-ecnmy-white text-sm capitalize"
+            ? "absolute inset-x-0 bottom-12 bg-ecnmy-black rounded-lg text-ecnmy-white p-2 text-sm capitalize-first"
             : "hidden"
         }`}
       >

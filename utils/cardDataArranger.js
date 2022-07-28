@@ -17,8 +17,8 @@ export const getDataByGeography = (arr, Geography) => {
 
 // Find the percentage change based on a previous years values
 const findChange = (current, previous, Geography) => {
-  const currentValue = getDataByGeography(current, Geography).Value;
-  const previousValue = getDataByGeography(previous, Geography).Value;
+  const currentValue = getDataByGeography(current, Geography)?.Value || 0;
+  const previousValue = getDataByGeography(previous, Geography)?.Value || 0;
   return ((currentValue - previousValue) / previousValue) * 100;
 };
 
@@ -39,7 +39,8 @@ export default function cardDataArranger(arr, location) {
       })
       .sort((a, b) => b.Value - a.Value);
 
-    const locationData = getDataByGeography(allCurrentYearData, location);
+    const locationData =
+      getDataByGeography(allCurrentYearData, location) || null;
     const ukData =
       getDataByGeography(allCurrentYearData, "United Kingdom")?.Value || null;
     const londonData = getDataByGeography(allCurrentYearData, "London").Value;
@@ -47,13 +48,14 @@ export default function cardDataArranger(arr, location) {
       boroughCurrentYearData.findIndex((item) => item.Geography === location) +
       1; // +1 as 0 indexed
     const change = findChange(allCurrentYearData, lastYearsData, location);
-    const isNull = locationData.Value === "" ? true : false;
+    const isNull =
+      locationData?.Value === "" ? true : locationData === null ? true : false;
     const currentYear = allCurrentYearData[0].Time;
     const previousYear = lastYearsData[0].Time;
 
     return {
       cardData: {
-        locationData,
+        locationData: locationData || null,
         ukData,
         londonData,
         ranking,
