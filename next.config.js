@@ -6,6 +6,7 @@ const nextConfig = {
 
 module.exports = {
   nextConfig,
+  // Quick error handling that shows the user all topics for a borough even though they didn't go on that url
   async rewrites() {
     return [
       {
@@ -14,6 +15,7 @@ module.exports = {
       },
     ];
   },
+  // Adds html lang attribute
   i18n: {
     locales: ["en"],
     defaultLocale: "en",

@@ -5,55 +5,49 @@ import Loading from "../../../components/Loading";
 import Link from "next/link";
 
 export async function getServerSideProps({ params }) {
-  if (params.location !== "favicon.ico") {
-    const indicator = params.indicator;
-    const location = params.location;
+  // Get the parameters of the url
+  const indicator = params.indicator;
+  const location = params.location;
 
-    const dataset = await selectDatasetByIndicator(indicator);
+  // Select the single dataset needed for the specific indicator
+  const dataset = await selectDatasetByIndicator(indicator);
 
-    const metadata = dataset?.metadata || null;
-    const boroughData = dataset.data.data.filter(
-      (object) => object.Geography === location
-    );
-    const [locationDataset] = cardDataArranger([dataset], location);
+  const metadata = dataset?.metadata || null;
+  //Data for the specific location clicked on for more info
+  const boroughData = dataset.data.data.filter(
+    (object) => object.Geography === location
+  );
+  const [locationDataset] = cardDataArranger([dataset], location);
 
-    let chartCsv = `Year,${indicator}\n`;
-    let tableCsv = `Year,${indicator}\n`;
+  // Starting the csvs to send to datawrapper-proxy
+  let chartCsv = `Year,${indicator}\n`;
+  let tableCsv = `Year,${indicator}\n`;
 
-    let boroughDataSortedByYearChart = boroughData.sort((a, b) => {
-      return (
-        parseInt(a.Time.substring(0, 4)) - parseInt(b.Time.substring(0, 4))
-      );
-    });
-    let boroughDataSortedByYearTable = boroughData.sort((a, b) => {
-      return (
-        parseInt(b.Time.substring(0, 4)) - parseInt(a.Time.substring(0, 4))
-      );
-    });
+  let boroughDataSortedByYearChart = boroughData.sort((a, b) => {
+    return parseInt(a.Time.substring(0, 4)) - parseInt(b.Time.substring(0, 4));
+  });
+  let boroughDataSortedByYearTable = boroughData.sort((a, b) => {
+    return parseInt(b.Time.substring(0, 4)) - parseInt(a.Time.substring(0, 4));
+  });
 
-    boroughDataSortedByYearChart.map((datum) => {
-      chartCsv += `${datum["Time"].substring(0, 4)},${datum["Value"]}\n`;
-    });
-    boroughDataSortedByYearTable.map((datum) => {
-      tableCsv += `${datum["Time"]},${datum["Value"]}\n`;
-    });
+  boroughDataSortedByYearChart.map((datum) => {
+    chartCsv += `${datum["Time"].substring(0, 4)},${datum["Value"]}\n`;
+  });
+  boroughDataSortedByYearTable.map((datum) => {
+    tableCsv += `${datum["Time"]},${datum["Value"]}\n`;
+  });
 
-    return {
-      props: {
-        location,
-        boroughData,
-        metadata,
-        locationDataset,
-        chartCsv,
-        tableCsv,
-        indicator,
-      },
-    };
-  } else {
-    return {
-      props: {},
-    };
-  }
+  return {
+    props: {
+      location,
+      boroughData,
+      metadata,
+      locationDataset,
+      chartCsv,
+      tableCsv,
+      indicator,
+    },
+  };
 }
 
 export default function Indicator({
@@ -78,7 +72,7 @@ export default function Indicator({
   );
 
   let x = tableCsv.length * 3.9;
-  let tableHieght = x.toString() + "px";
+  let tableHeight = x.toString() + "px";
 
   return (
     <main>
@@ -89,17 +83,22 @@ export default function Indicator({
           </h1>
           <h2>
             <span className="font-semibold">Name of study:</span>{" "}
-            <Link href={metadata.datasetLink}><a className="underline text-blue-600 hover:text-ecnmy-navy visited:text-ecnmy-grape">{metadata.title}</a></Link>
+            <Link href={metadata.datasetLink}>
+              <a className="underline text-blue-600 hover:text-ecnmy-navy visited:text-ecnmy-grape">
+                {metadata.title}
+              </a>
+            </Link>
           </h2>
           <h3>
             <span className="font-semibold">Last updated:</span>{" "}
             {metadata.release_date.substring(0, 4)}
           </h3>
-          {metadata.sampleSize ?
-            <h3><span className="font-semibold">Sample size:</span>{" "}
+          {metadata.sampleSize ? (
+            <h3>
+              <span className="font-semibold">Sample size:</span>{" "}
               {metadata.sampleSize}
             </h3>
-            : null}
+          ) : null}
           <p>
             <span className="font-semibold">Description:</span>{" "}
             {metadata.description}
@@ -126,7 +125,7 @@ export default function Indicator({
           <Loading />
         ) : (
           <iframe
-            style={{ height: tableHieght }}
+            style={{ height: tableHeight }}
             title={`A table for ${indicator} in ${location}`}
             id="datawrapper-chart-0jKkG"
             src={`https://datawrapper.dwcdn.net/${tableId}/1/`}
