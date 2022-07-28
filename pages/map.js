@@ -1,7 +1,6 @@
 import {
   selectDistinctTopicsWithData,
   selectTopicsWithLinkedData,
-  selectAllByServerSideParam,
 } from "../database/model";
 import StyleSelect from "../components/StyleSelect";
 import selectOptions from "../utils/selectOptions";
@@ -22,7 +21,6 @@ const sortByYearReturningOneYear = (arr, slice) => {
 
 export async function getServerSideProps() {
   //topics and indicators for dropdown menu
-  const datasets = await selectAllByServerSideParam("datasets");
   const topics = await selectDistinctTopicsWithData();
   const allIndicatorOptions = await selectTopicsWithLinkedData();
   const filteredAllIndicators = allIndicatorOptions.filter(
@@ -37,9 +35,7 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      datasets,
       topicOptions,
-      topics,
       allIndicatorOptions,
       filteredAllIndicators,
     },
@@ -47,10 +43,7 @@ export async function getServerSideProps() {
 }
 
 export default function Map({
-  datasets,
-  topics,
   topicOptions,
-  invisible,
   allIndicatorOptions,
   filteredAllIndicators,
 }) {
@@ -75,16 +68,21 @@ export default function Map({
   useEffect(() => {
     if (indicator !== null) {
       const indicatorToFilter = indicator.value;
-      const [filteredDatasets] = datasets.filter(
-        (dataset) => dataset.indicator === indicatorToFilter
-      );
-      const data = filteredDatasets.data.data
-        .filter((dataset) => dataset.Geography !== "London")
-        .filter((dataset) => dataset.Geography !== "United Kingdom");
-      setMapData(sortByYearReturningOneYear(data, [0, 33]));
-      setMapIndicator(indicatorToFilter);
+      fetch("/api/dataset-by-indicator", {
+        method: "POST",
+        body: JSON.stringify({ indicator: indicatorToFilter }),
+      })
+        .then((resolve) => resolve.json())
+        .then((json) => json.dataset)
+        .then((dataset) => {
+          const data = dataset.data.data
+            .filter((dataset) => dataset.Geography !== "London")
+            .filter((dataset) => dataset.Geography !== "United Kingdom");
+          setMapData(sortByYearReturningOneYear(data, [0, 33]));
+          setMapIndicator(indicatorToFilter);
+        });
     }
-  }, [datasets, setMapData, indicator, setMapIndicator]);
+  }, [setMapData, indicator, setMapIndicator]);
 
   //clicking a borough on the map redirects the user to the relevant indicator page
   const router = useRouter();
