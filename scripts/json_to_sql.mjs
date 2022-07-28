@@ -1,21 +1,18 @@
 import fs from "fs";
-import fetch from "node-fetch";
 import lifeExpectancy from "../utils/lifeExpectancy.mjs";
 import wellbeing from "../utils/wellbeing.mjs";
 
 async function jsonParser(file) {
-  /* const data = await JSON.parse(
-    fs.readFile(file, function (err, data) {
-      if (err) return console.error(err);
-      console.log(data.toString());
-    })
-  ); */
   const rawdata = fs.readFileSync(file);
   const data = await JSON.parse(rawdata);
   return data;
 }
 
-const jsonConverter = async () => {
+/** jsonToSql is a scripting function that takes in inputted jsons with datasets
+ * These jsons are then turned into something that is easy to automate in the code
+ * Adding any other metadata we need to the sql which will then update our db
+ */
+const jsonToSql = async () => {
   const [happiness, happinessMetadata] = await wellbeing(
     "./datasets/happiness.json",
     ["happiness"]
@@ -64,7 +61,7 @@ const jsonConverter = async () => {
     source: "Nomis",
     sampleSize: null,
     tooltips: ["JSA", "UC"],
-    datasetLink: 'https://www.nomisweb.co.uk/sources/cc'
+    datasetLink: "https://www.nomisweb.co.uk/sources/cc",
   };
   let sqlOutput = /*SQL*/ `BEGIN;\n\nINSERT INTO datasets (indicator, data, metadata) VALUES\n`;
 
@@ -79,13 +76,13 @@ const jsonConverter = async () => {
   `;
   sqlOutput += `
     ('life expectancy (female)', '${JSON.stringify(
-    femaleLifeExpectancy
-  )}', '${JSON.stringify(femaleLifeExpectancyMetadata)}'),\n
+      femaleLifeExpectancy
+    )}', '${JSON.stringify(femaleLifeExpectancyMetadata)}'),\n
   `;
   sqlOutput += `
     ('life expectancy (male)', '${JSON.stringify(
-    maleLifeExpectancy
-  )}', '${JSON.stringify(maleLifeExpectancyMetadata)}'),\n
+      maleLifeExpectancy
+    )}', '${JSON.stringify(maleLifeExpectancyMetadata)}'),\n
   `;
   sqlOutput += `('total JSA and UC claimants', '${JSON.stringify(
     totalClaim
@@ -101,15 +98,4 @@ const jsonConverter = async () => {
   });
 };
 
-jsonConverter();
-
-// let sqlOutput =
-// "BEGIN;\n\nINSERT INTO locations (code, name) VALUES\n";
-
-// locationData.forEach((location) => {
-// sqlOutput += `('${location.id}', '${location.name}'), \n`;
-// })
-
-// sqlOutput = sqlOutput.substring(0, sqlOutput.length - 3) + ";";
-
-// sqlOutput += "\n\nCOMMIT;";
+jsonToSql();

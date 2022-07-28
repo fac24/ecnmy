@@ -5,6 +5,7 @@ import Image from "next/image";
 
 export default function NavBar() {
   const router = useRouter();
+  //finds the active page (if there is one) to underline
   const active =
     router.route === "/" ? "home" : router.route === "/map" ? "map" : null;
   return (

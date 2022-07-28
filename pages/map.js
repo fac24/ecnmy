@@ -1,7 +1,6 @@
 import {
   selectDistinctTopicsWithData,
   selectTopicsWithLinkedData,
-  selectAllByServerSideParam,
 } from "../database/model";
 import StyleSelect from "../components/StyleSelect";
 import selectOptions from "../utils/selectOptions";
@@ -20,49 +19,34 @@ const sortByYearReturningOneYear = (arr, slice) => {
     .slice(slice[0], slice[1]);
 };
 
-export async function getServerSideProps(params) {
-  if (params.location !== "favicon.ico") {
-    //topics and indicators for dropdown menu
-    const datasets = await selectAllByServerSideParam("datasets");
-    const topics = await selectDistinctTopicsWithData();
-    const allIndicatorOptions = await selectTopicsWithLinkedData();
-    const filteredAllIndicators = allIndicatorOptions.filter(
-      (optionA, index, arr) =>
-        arr.findIndex((optionB) => optionB.indicator === optionA.indicator) ===
-        index
-    );
-    const topicOptions = [
-      { value: "All", label: "All" },
-      ...selectOptions(topics),
-    ];
+export async function getServerSideProps() {
+  //topics and indicators for dropdown menu
+  const topics = await selectDistinctTopicsWithData();
+  const allIndicatorOptions = await selectTopicsWithLinkedData();
+  const filteredAllIndicators = allIndicatorOptions.filter(
+    (optionA, index, arr) =>
+      arr.findIndex((optionB) => optionB.indicator === optionA.indicator) ===
+      index
+  );
+  const topicOptions = [
+    { value: "All", label: "All" },
+    ...selectOptions(topics),
+  ];
 
-    const location = params.location;
-
-    return {
-      props: {
-        datasets,
-        topicOptions,
-        topics,
-        allIndicatorOptions,
-        filteredAllIndicators,
-      },
-    };
-  } else {
-    return {
-      props: {},
-    };
-  }
+  return {
+    props: {
+      topicOptions,
+      allIndicatorOptions,
+      filteredAllIndicators,
+    },
+  };
 }
 
 export default function Map({
-  datasets,
-  topics,
   topicOptions,
-  invisible,
   allIndicatorOptions,
   filteredAllIndicators,
 }) {
-  const router = useRouter();
   const [topic, setTopic] = useState({ value: "All", label: "All" });
   const [indicator, setIndicator] = useState(null);
   const [indicatorOptions, setIndicatorOptions] = useState(
@@ -84,26 +68,33 @@ export default function Map({
   useEffect(() => {
     if (indicator !== null) {
       const indicatorToFilter = indicator.value;
-      const [filteredDatasets] = datasets.filter(
-        (dataset) => dataset.indicator === indicatorToFilter
-      );
-      const data = filteredDatasets.data.data
-        .filter((dataset) => dataset.Geography !== "London")
-        .filter((dataset) => dataset.Geography !== "United Kingdom");
-      setMapData(sortByYearReturningOneYear(data, [0, 33]));
-      setMapIndicator(indicatorToFilter);
+      fetch("/api/dataset-by-indicator", {
+        method: "POST",
+        body: JSON.stringify({ indicator: indicatorToFilter }),
+      })
+        .then((resolve) => resolve.json())
+        .then((json) => json.dataset)
+        .then((dataset) => {
+          const data = dataset.data.data
+            .filter((dataset) => dataset.Geography !== "London")
+            .filter((dataset) => dataset.Geography !== "United Kingdom");
+          setMapData(sortByYearReturningOneYear(data, [0, 33]));
+          setMapIndicator(indicatorToFilter);
+        });
     }
-  }, [datasets, setMapData, indicator, setMapIndicator]);
+  }, [setMapData, indicator, setMapIndicator]);
 
   //clicking a borough on the map redirects the user to the relevant indicator page
+  const router = useRouter();
   useEffect(() => {
     function regionClick(event) {
       if (indicator !== null) {
         router.push(`/${event.data.Location}/indicator/${indicator.value}`);
       }
     }
+    // datawrappers own event listeners allow us to be able to click the iframes
     datawrapper.on("region.click", regionClick);
-
+    // Doing some cleansing by removing the event listent after click
     return () => datawrapper.off("region.click", regionClick);
   }, [indicator, router]);
 
