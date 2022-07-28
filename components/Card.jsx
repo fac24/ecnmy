@@ -23,9 +23,11 @@ export default function Card({ dataset, location }) {
       </div>
 
       <div className="bg-ecnmy-white mb-1 p-4 rounded-b-lg">
-        <h3 className="text-ecnmy-navy text-4xl text-center font-semibold">
-          {dataset.cardData.locationData.Value.toLocaleString("en-UK")}
-        </h3>
+        {dataset.cardData.locationData === null ? null : (
+          <h3 className="text-ecnmy-navy text-4xl text-center font-semibold">
+            {dataset.cardData.locationData.Value.toLocaleString("en-UK")}
+          </h3>
+        )}
         <ul className="list-disc m-4 text-base">
           {cardData.change > 0 ? (
             <li>
@@ -44,9 +46,9 @@ export default function Card({ dataset, location }) {
           {location === "London" ? null : (
             <li>London: {cardData.londonData?.toLocaleString("en-UK")}</li>
           )}
-          {location === "United Kingdom" ? null : (
+          {location === "United Kingdom" ? null : cardData.ukData ? (
             <li>UK: {cardData.ukData?.toLocaleString("en-UK")}</li>
-          )}
+          ) : null}
         </ul>
 
         <section className="flex justify-between items-center">

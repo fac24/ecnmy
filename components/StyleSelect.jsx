@@ -1,6 +1,13 @@
 import Select from "react-select";
 
-export default function StyleSelect({ options, defaultValue, id, invisible, setChange = null }) {
+export default function StyleSelect({
+  options,
+  defaultValue,
+  id,
+  invisible,
+  setChange = null,
+  tabIndex = "0",
+}) {
   return (
     <fieldset className="min-w-[250px]">
       <label
@@ -15,6 +22,7 @@ export default function StyleSelect({ options, defaultValue, id, invisible, setC
         options={options}
         defaultValue={defaultValue}
         onChange={setChange}
+        tabIndex={tabIndex}
       />
     </fieldset>
   );
