@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import How from "./How";
-import Image from "next/image";
 
 export default function NavBar() {
   const router = useRouter();
+  //finds the active page (if there is one) to underline
   const active =
     router.route === "/" ? "home" : router.route === "/map" ? "map" : null;
   return (
@@ -26,6 +26,7 @@ export default function NavBar() {
         <div className="flex items-center">
           <Link href="/map">
             <a
+              data-test-id="mapNavLink"
               className={
                 active === "map"
                   ? "text-ecnmy-charcoal underline"

@@ -10,7 +10,7 @@ const selectAllByServerSideParam = async (table) => {
 
 const selectDistinctTopicsWithData = async () => {
   const SELECT_TOPICS = /*SQL*/ `
-  SELECT DISTINCT (topics.name)
+  SELECT DISTINCT (topics.name) -- Doesn't duplicate the topics
   FROM topics
     INNER JOIN datasets_topics ON topics.id = datasets_topics.topic_id
     INNER JOIN datasets ON datasets_topics.dataset_id = datasets.id

@@ -4,6 +4,7 @@ export default function useDatawrapper(csv, indicator, location, chartType) {
   const [chartId, setChartId] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Sends the details to datawrapper-proxy to then send to datawrapper
   useEffect(() => {
     setLoading(true);
     fetch("/api/datawrapper-proxy", {
