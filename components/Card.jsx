@@ -1,15 +1,8 @@
-import { useState } from "react";
 import Link from "next/link";
 import ToolTip from "./Tooltip";
-import HealthWarning from "./HealthWarning";
 import React from "react";
 
 export default function Card({ dataset, location }) {
-  const [hover, setHover] = useState(false);
-
-  function handleHover() {
-    setHover(!hover);
-  }
 
   const cardData = dataset.cardData;
   if (cardData.isNull) return null;
@@ -53,7 +46,7 @@ export default function Card({ dataset, location }) {
 
         <section className="flex justify-between items-center">
           <Link href={`/${location}/indicator/${dataset.indicator}`}>
-            <a className="underline font-semibold hover:font-bold text-ecnmy-pumpkin">
+            <a className="underline font-semibold hover:font-bold text-[#AD1414]">
               More Info
             </a>
           </Link>
@@ -62,12 +55,6 @@ export default function Card({ dataset, location }) {
             {dataset.metadata.source}
             {", "}
             {cardData.currentYear}
-            <div>
-              <HealthWarning
-                metadata={dataset.metadata}
-                year={cardData.currentYear}
-              />
-            </div>
           </div>
         </section>
       </div>

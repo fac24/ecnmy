@@ -51,7 +51,7 @@ const jsonConverter = async () => {
   totalClaim.data = tidyClaimData;
   let totalClaimMetadata = {
     description:
-      "This experimental series counts the number of people claiming Jobseeker''s Allowance plus those who claim Universal Credit and are required to seek work and be available for work and replaces the number of people claiming Jobseeker''s Allowance as the headline indicator of the number of people claiming benefits principally for the reason of being unemployed. (summary from NOMIS, using data gathered by the ONS)",
+      "This experimental series counts the number of people claiming Jobseeker''s Allowance plus those who claim Universal Credit and are required to seek work and be available for work and replaces the number of people claiming Jobseeker''s Allowance as the headline indicator of the number of people claiming benefits principally for the reason of being unemployed.",
     downloads: null,
     keywords: ["poverty", "universal credit", "jobseekers allowance"],
     methodologies: {
@@ -64,6 +64,7 @@ const jsonConverter = async () => {
     source: "Nomis",
     sampleSize: null,
     tooltips: ["JSA", "UC"],
+    datasetLink: 'https://www.nomisweb.co.uk/sources/cc'
   };
   let sqlOutput = /*SQL*/ `BEGIN;\n\nINSERT INTO datasets (indicator, data, metadata) VALUES\n`;
 
