@@ -6,12 +6,14 @@ export default function Footer() {
   return (
     <>
       <footer className="text-xs pt-6 pb-8 px-11 flex justify-around items-center flex-wrap border-solid border-ecnmy-charcoal border-t-2 border-b-2">
-        <p className="text-[16px] py-1 font-medium max-w-xs mb-2 flex flex-wrap">
-          <span className="font-bold">Data Sources</span>
-          This dashboard represents local data available from a range of
-          sources, current sources are
-        </p>
-        <div className="flex flex-col items-start gap-4">
+        <div className="flex flex-row flex-wrap items-start gap-4">
+          <p className="text-[16px] py-1 font-medium max-w-xs mb-2 flex flex-wrap">
+            <span className="font-bold">Data Sources</span>
+            This dashboard represents local data available from a range of
+            sources, current sources are
+          </p>
+          
+
           <div className="flex flex-wrap justify-around items-center gap-2">
             <Link href="https://www.ons.gov.uk/">
               <a className="w-44" rel="noreferrer" target="_blank">
@@ -24,12 +26,10 @@ export default function Footer() {
                 />
               </a>
             </Link>
-
-          
           </div>
         </div>
       </footer>
-      <div className="flex items-center gap-3 flex-wrap md:flex-nowrap  justify-around my-10 max-w-[75%] mx-auto">
+      <div className="flex items-center gap-3 flex-wrap md:flex-nowrap justify-around my-10 max-w-[75%] mx-auto">
         <Link href="https://www.ecnmy.org/">
           <a
             target="_blank"
