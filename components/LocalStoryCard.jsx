@@ -4,7 +4,7 @@ export default function LocalStoryCard() {
 
     return (<div className="flex flex-col w-1/4 justify-evenly min-w-[320px] max-w-[360px]">
         <div className="bg-ecnmy-white mb-1 flex flex-col rounded-t-lg ">
-            <h2 className="relative overflow-visible bg-ecnmy-navy self-center text-ecnmy-white m-3 p-2 text-center flex justify-between rounded-lg w-10/12 text-lg font-bold">
+            <h2 className="relative overflow-visible bg-ecnmy-navy self-center text-ecnmy-white m-3 p-2 text-center justify-between rounded-lg w-10/12 text-lg font-bold">
                 Local Stories
             </h2>
         </div>
