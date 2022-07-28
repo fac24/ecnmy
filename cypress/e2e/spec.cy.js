@@ -39,12 +39,6 @@
 // Dropdowns take to topics
 // });
 
-describe("Topic page tests", () => {
-  it("can select drop down menu topic", () => {
-    cy.get(".css-14el2xx-placeholder").eq(1).click();
-    cy.get('[id = "react-select-3-placeholder"]');
-  });
-});
 // How for topic page
 // Navbar
 // Footer
