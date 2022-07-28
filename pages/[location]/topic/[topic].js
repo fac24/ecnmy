@@ -7,6 +7,7 @@ import Card from "../../../components/Card";
 import cardDataArranger from "../../../utils/cardDataArranger";
 import selectOptions from "../../../utils/selectOptions";
 import SelectForm from "../../../components/SelectForm";
+import LocalStoryCard from "../../../components/LocalStoryCard";
 
 export async function getServerSideProps({ params }) {
   //params.location gives the location part of URL
@@ -61,6 +62,8 @@ export default function Cards({
   topicOptions,
   topic,
 }) {
+
+
   const cards = locationDatasets.map((dataset, index) => {
     return <Card dataset={dataset} key={index} location={location} />;
   });
@@ -74,6 +77,7 @@ export default function Cards({
       />
       <div className="flex justify-evenly gap-3 flex-wrap  p-4 pb-6">
         {cards}
+        <LocalStoryCard />
       </div>
     </div>
   );

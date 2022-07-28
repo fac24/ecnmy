@@ -1,15 +1,8 @@
-import { useState } from "react";
 import Link from "next/link";
 import ToolTip from "./Tooltip";
-import HealthWarning from "./HealthWarning";
 import React from "react";
 
 export default function Card({ dataset, location }) {
-  const [hover, setHover] = useState(false);
-
-  function handleHover() {
-    setHover(!hover);
-  }
 
   const cardData = dataset.cardData;
   if (cardData.isNull) return null;
@@ -23,9 +16,11 @@ export default function Card({ dataset, location }) {
       </div>
 
       <div className="bg-ecnmy-white mb-1 p-4 rounded-b-lg">
-        <h3 className="text-ecnmy-navy text-4xl text-center font-semibold">
-          {dataset.cardData.locationData.Value.toLocaleString("en-UK")}
-        </h3>
+        {dataset.cardData.locationData === null ? null : (
+          <h3 className="text-ecnmy-navy text-4xl text-center font-semibold">
+            {dataset.cardData.locationData.Value.toLocaleString("en-UK")}
+          </h3>
+        )}
         <ul className="list-disc m-4 text-base">
           {cardData.change > 0 ? (
             <li>
@@ -44,14 +39,14 @@ export default function Card({ dataset, location }) {
           {location === "London" ? null : (
             <li>London: {cardData.londonData?.toLocaleString("en-UK")}</li>
           )}
-          {location === "United Kingdom" ? null : (
+          {location === "United Kingdom" ? null : cardData.ukData ? (
             <li>UK: {cardData.ukData?.toLocaleString("en-UK")}</li>
-          )}
+          ) : null}
         </ul>
 
         <section className="flex justify-between items-center">
           <Link href={`/${location}/indicator/${dataset.indicator}`}>
-            <a className="underline font-semibold hover:font-bold text-ecnmy-pumpkin">
+            <a className="underline font-semibold hover:font-bold text-[#AD1414]">
               More Info
             </a>
           </Link>
@@ -60,12 +55,6 @@ export default function Card({ dataset, location }) {
             {dataset.metadata.source}
             {", "}
             {cardData.currentYear}
-            <div>
-              <HealthWarning
-                metadata={dataset.metadata}
-                year={cardData.currentYear}
-              />
-            </div>
           </div>
         </section>
       </div>

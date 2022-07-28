@@ -2,6 +2,7 @@ import useDatawrapper from "../../../components/hooks/useDatawrapper";
 import { selectDatasetByIndicator } from "../../../database/model";
 import cardDataArranger from "../../../utils/cardDataArranger";
 import Loading from "../../../components/Loading";
+import Link from "next/link";
 
 export async function getServerSideProps({ params }) {
   if (params.location !== "favicon.ico") {
@@ -36,7 +37,7 @@ export async function getServerSideProps({ params }) {
     boroughDataSortedByYearTable.map((datum) => {
       tableCsv += `${datum["Time"]},${datum["Value"]}\n`;
     });
-    console.log(chartCsv);
+
     return {
       props: {
         location,
@@ -88,12 +89,17 @@ export default function Indicator({
           </h1>
           <h2>
             <span className="font-semibold">Name of study:</span>{" "}
-            {metadata.title}
+            <Link href={metadata.datasetLink}><a className="underline text-blue-600 hover:text-ecnmy-navy visited:text-ecnmy-grape">{metadata.title}</a></Link>
           </h2>
           <h3>
             <span className="font-semibold">Last updated:</span>{" "}
             {metadata.release_date.substring(0, 4)}
           </h3>
+          {metadata.sampleSize ?
+            <h3><span className="font-semibold">Sample size:</span>{" "}
+              {metadata.sampleSize}
+            </h3>
+            : null}
           <p>
             <span className="font-semibold">Description:</span>{" "}
             {metadata.description}
@@ -104,7 +110,7 @@ export default function Indicator({
             <Loading />
           ) : (
             <iframe
-              aria-label={`A chart showing the change in ${indicator} in ${location}`}
+              title={`A chart showing the change in ${indicator} in ${location}`}
               id="datawrapper-chart-0jKkG"
               src={`https://datawrapper.dwcdn.net/${lineChartId}/1/`}
               className="w-full min-w-full h-full"
@@ -121,7 +127,7 @@ export default function Indicator({
         ) : (
           <iframe
             style={{ height: tableHieght }}
-            aria-label={`A table for ${indicator} in ${location}`}
+            title={`A table for ${indicator} in ${location}`}
             id="datawrapper-chart-0jKkG"
             src={`https://datawrapper.dwcdn.net/${tableId}/1/`}
             className="w-full min-w-full h-full"
