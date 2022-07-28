@@ -56,37 +56,4 @@ describe("Homepage tests", () => {
       .get('[data-test-id="mapNavLink"]')
       .should("have.attr", "href", "/map");
   });
-  // How for homepage
-  // Dropdowns take to topics
 });
-
-// describe("Topic page tests", () => {
-//   it("can select drop down menu topic", () => {
-//     cy.get(".css-14el2xx-placeholder").eq(1).click();
-//     cy.find('[id = "react-select-3-placeholder"]');
-//   });
-// });
-
-// How for topic page
-// Navbar
-// Footer
-// Can see data cards
-// Card can click
-// Can change topic
-// Can change location
-// Can change both topic and locat`ion
-// Can hover over title
-// Can hover over i symbol
-// Can focus on i symbol
-//
-
-// describe("Indicator page tests", () => {
-//   // How for indicator page
-//   // Navbar
-//   // Footer
-//   // Can see graph
-//   // Can see table
-//   //
-// });
-
-//cy.get('#react-select-component-id').type('Something{enter}{enter}');
