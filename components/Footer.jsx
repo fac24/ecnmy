@@ -52,7 +52,7 @@ export default function Footer() {
         </Link>
         <p className=" text-xs">
           <span className="font-semibold block">
-            The Local cost of living dashboard is run by Economy
+            The Local Cost of Living Dashboard is run by Economy
           </span>
           <i>Economy</i>’s vision is of a flourishing and sustainable society in
           which there is diverse and inclusive public conversation about the
