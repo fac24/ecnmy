@@ -3,7 +3,6 @@ import ToolTip from "./Tooltip";
 import React from "react";
 
 export default function Card({ dataset, location }) {
-
   const cardData = dataset.cardData;
   if (cardData.isNull) return null;
   return (
@@ -15,7 +14,7 @@ export default function Card({ dataset, location }) {
         />
       </div>
 
-      <div className="bg-ecnmy-white mb-1 p-4 rounded-b-lg">
+      <div className="bg-ecnmy-white mb-1 p-4 rounded-b-lg h-full flex flex-col  justify-between">
         {dataset.cardData.locationData === null ? null : (
           <h3 className="text-ecnmy-navy text-4xl text-center font-semibold">
             {dataset.cardData.locationData.Value.toLocaleString("en-UK")}
@@ -44,7 +43,7 @@ export default function Card({ dataset, location }) {
           ) : null}
         </ul>
 
-        <section className="flex justify-between items-center">
+        <section className="flex justify-between items-center ">
           <Link href={`/${location}/indicator/${dataset.indicator}`}>
             <a className="underline font-semibold hover:font-bold text-[#AD1414]">
               More Info
