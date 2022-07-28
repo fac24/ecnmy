@@ -76,11 +76,11 @@ export default function Indicator({
 
   return (
     <main>
+      <h1 className="blue capitalize font-bold text-center text-3xl p-5">
+        {locationDataset.indicator} in {location}
+      </h1>
       <div className="flex items-center flex-wrap justify-around">
         <div className="p-5 rounded-xl  max-w-[400px]">
-          <h1 className="blue capitalize font-bold">
-            {locationDataset.indicator} in {location}
-          </h1>
           <h2>
             <span className="font-semibold">Name of study:</span>{" "}
             <Link href={metadata.datasetLink}>
@@ -120,7 +120,7 @@ export default function Indicator({
         </div>
       </div>
 
-      <div className="w-1/2 h-full m-auto border p-6">
+      <div className="max-w-xl h-full m-auto border p-6">
         {tableLoading === true ? (
           <Loading />
         ) : (
